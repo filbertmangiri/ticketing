@@ -19,13 +19,18 @@ class DatabaseSeeder extends Seeder
 	{
 		$this->call([
 			PermissionSeeder::class,
-			DepartmentSeeder::class,
-			SubDepartmentSeeder::class,
-			UserSeeder::class,
-			CategorySeeder::class,
-			ProductSeeder::class,
-			LocationSeeder::class,
-			PrioritySeeder::class,
 		]);
+
+		if (env('APP_DEBUG', false)) {
+			$this->call([
+				DepartmentSeeder::class,
+				SubDepartmentSeeder::class,
+				UserSeeder::class,
+				CategorySeeder::class,
+				ProductSeeder::class,
+				LocationSeeder::class,
+				PrioritySeeder::class,
+			]);
+		}
 	}
 }
