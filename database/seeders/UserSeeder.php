@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
 			'email' => 'filbert.mangiri@student.umn.ac.id',
 			'username' => 'filbertmangiri',
 			'gender' => Gender::Male->value,
-			'password' => bcrypt('ryderman123'),
+			'password' => bcrypt('password'),
 		])->assignRole('super admin');
 
 		User::create([

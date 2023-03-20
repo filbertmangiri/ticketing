@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Enums\Gender;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Database\Seeders\UserSeeder;
 use Database\Seeders\ProductSeeder;
@@ -21,7 +23,15 @@ class DatabaseSeeder extends Seeder
 			PermissionSeeder::class,
 		]);
 
-		if (env('APP_DEBUG', false)) {
+		User::create([
+			'name' => 'Filbert Mangiri',
+			'email' => 'filbert.mangiri@student.umn.ac.id',
+			'username' => 'filbertmangiri',
+			'gender' => Gender::Male->value,
+			'password' => bcrypt('password'),
+		])->assignRole('super admin');
+
+		if (env('APP_DEBUG', true)) {
 			$this->call([
 				DepartmentSeeder::class,
 				SubDepartmentSeeder::class,

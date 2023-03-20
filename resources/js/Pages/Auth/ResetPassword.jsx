@@ -45,6 +45,7 @@ const ResetPassword = () => {
                         name="current_password"
                         value={form.data.current_password}
                         onChange={inputHandler}
+                        autoComplete="off"
                     />
                     <Input.Errors errors={form.errors.current_password} />
                 </Input>
@@ -54,6 +55,7 @@ const ResetPassword = () => {
                         name="password"
                         value={form.data.password}
                         onChange={inputHandler}
+                        autoComplete="off"
                     />
                     <Input.Errors errors={form.errors.password} />
                 </Input>
@@ -63,6 +65,7 @@ const ResetPassword = () => {
                         name="password_confirmation"
                         value={form.data.password_confirmation}
                         onChange={inputHandler}
+                        autoComplete="off"
                     />
                     <Input.Errors errors={form.errors.password_confirmation} />
                 </Input>
