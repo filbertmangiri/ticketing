@@ -1,0 +1,166 @@
+import AuthNavbar from "@/Components/Navigation/AuthNavbar";
+import Sidebar from "@/Components/Navigation/Sidebar";
+import { can } from "@/Helpers/Permission";
+import {
+    BuildingOffice2Icon,
+    BuildingOfficeIcon,
+    DevicePhoneMobileIcon,
+    FlagIcon,
+    MapPinIcon,
+    Squares2X2Icon,
+    TagIcon,
+    TicketIcon,
+    UserGroupIcon,
+    UsersIcon,
+} from "@heroicons/react/24/outline";
+import { useRef, useState } from "react";
+import AppLayout from "./App";
+
+const DashboardLayout = ({ title, children }) => {
+    const [showSidebar, setShowSidebar] = useState(
+        window.innerWidth > 768 ? true : false
+    );
+
+    const sidebarToggleRef = useRef(null);
+
+    return (
+        <AppLayout title={title}>
+            <div className="flex h-screen flex-col">
+                <header>
+                    <AuthNavbar
+                        showSidebar={showSidebar}
+                        setShowSidebar={setShowSidebar}
+                        sidebarToggleRef={sidebarToggleRef}
+                    />
+                </header>
+
+                <div className="relative flex flex-grow overflow-hidden">
+                    {showSidebar && (
+                        <Sidebar
+                            showSidebar={showSidebar}
+                            setShowSidebar={setShowSidebar}
+                            sidebarToggleRef={sidebarToggleRef}
+                        >
+                            <Sidebar.Item
+                                routeName="dashboard"
+                                routeCheck="dashboard"
+                                icon={<Squares2X2Icon className="h-6 w-6" />}
+                                setShowSidebar={setShowSidebar}
+                            >
+                                Dashboard
+                            </Sidebar.Item>
+                            {can("create ticket") && (
+                                <Sidebar.Item
+                                    routeName="ticket.create"
+                                    routeCheck="ticket.create"
+                                    icon={<TicketIcon className="h-6 w-6" />}
+                                    setShowSidebar={setShowSidebar}
+                                >
+                                    Create a New Ticket
+                                </Sidebar.Item>
+                            )}
+                            <Sidebar.Item
+                                routeName="ticket.index"
+                                routeCheck={["ticket.index", "ticket.show"]}
+                                icon={<TicketIcon className="h-6 w-6" />}
+                                setShowSidebar={setShowSidebar}
+                            >
+                                {can("view any ticket")
+                                    ? "Tickets"
+                                    : can("view assigned ticket")
+                                    ? "Assigned Tickets"
+                                    : "My Tickets"}
+                            </Sidebar.Item>
+                            {can("view any user") && (
+                                <Sidebar.Item
+                                    routeName="user.index"
+                                    routeCheck="user.*"
+                                    icon={<UsersIcon className="h-6 w-6" />}
+                                    setShowSidebar={setShowSidebar}
+                                >
+                                    Users
+                                </Sidebar.Item>
+                            )}
+                            {can("view any department") && (
+                                <Sidebar.Item
+                                    routeName="department.index"
+                                    routeCheck="department.*"
+                                    icon={
+                                        <BuildingOffice2Icon className="h-6 w-6" />
+                                    }
+                                    setShowSidebar={setShowSidebar}
+                                >
+                                    Departments
+                                </Sidebar.Item>
+                            )}
+                            {can("view any sub_department") && (
+                                <Sidebar.Item
+                                    routeName="subDepartment.index"
+                                    routeCheck="subDepartment.*"
+                                    icon={
+                                        <BuildingOfficeIcon className="h-6 w-6" />
+                                    }
+                                    setShowSidebar={setShowSidebar}
+                                >
+                                    Sub Departments
+                                </Sidebar.Item>
+                            )}
+                            {can("view any category") && (
+                                <Sidebar.Item
+                                    routeName="category.index"
+                                    routeCheck="category.*"
+                                    icon={<TagIcon className="h-6 w-6" />}
+                                    setShowSidebar={setShowSidebar}
+                                >
+                                    Categories
+                                </Sidebar.Item>
+                            )}
+                            {can("view any product") && (
+                                <Sidebar.Item
+                                    routeName="product.index"
+                                    routeCheck="product.*"
+                                    icon={
+                                        <DevicePhoneMobileIcon className="h-6 w-6" />
+                                    }
+                                    setShowSidebar={setShowSidebar}
+                                >
+                                    Products
+                                </Sidebar.Item>
+                            )}
+                            {can("view any priority") && (
+                                <Sidebar.Item
+                                    routeName="priority.index"
+                                    routeCheck="priority.*"
+                                    icon={<FlagIcon className="h-6 w-6" />}
+                                    setShowSidebar={setShowSidebar}
+                                >
+                                    Priorities
+                                </Sidebar.Item>
+                            )}
+                            {can("view any location") && (
+                                <Sidebar.Item
+                                    routeName="location.index"
+                                    routeCheck="location.*"
+                                    icon={<MapPinIcon className="h-6 w-6" />}
+                                    setShowSidebar={setShowSidebar}
+                                >
+                                    Locations
+                                </Sidebar.Item>
+                            )}
+                        </Sidebar>
+                    )}
+
+                    <main
+                        className={`${
+                            !showSidebar && "md:px-responsive"
+                        } custom-scrollbar flex flex-grow overflow-auto px-5 py-5`}
+                    >
+                        {children}
+                    </main>
+                </div>
+            </div>
+        </AppLayout>
+    );
+};
+
+export default DashboardLayout;
