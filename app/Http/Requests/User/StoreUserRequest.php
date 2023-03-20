@@ -26,7 +26,7 @@ class StoreUserRequest extends FormRequest
 			'department_id' => $this->department['value'] ?? null,
 			'sub_department_id' => $this->sub_department['value'] ?? null,
 			'roles' => array_map(fn ($role) => $role['label'], $this->roles),
-			'password' => bcrypt(Str::random(8)),
+			'password' => bcrypt('password'),
 		]);
 	}
 
