@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Pages;
 
 use App\Http\Controllers\Controller;
+use App\Models\Announcement;
 use App\Models\Category;
 use App\Models\Department\Department;
 use App\Models\Department\SubDepartment;
@@ -26,6 +27,7 @@ class DashboardController extends Controller
 			'products' => fn () => Product::count(),
 			'locations' => fn () => Location::count(),
 			'priorities' => fn () => Priority::count(),
+			'announcements' => fn () => Announcement::with('author')->latest()->take(5)->get(),
 		]);
 	}
 }

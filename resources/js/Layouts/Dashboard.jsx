@@ -7,6 +7,7 @@ import {
     DevicePhoneMobileIcon,
     FlagIcon,
     MapPinIcon,
+    MegaphoneIcon,
     Squares2X2Icon,
     TagIcon,
     TicketIcon,
@@ -145,6 +146,16 @@ const DashboardLayout = ({ title, children }) => {
                                     setShowSidebar={setShowSidebar}
                                 >
                                     Locations
+                                </Sidebar.Item>
+                            )}
+                            {can("view any announcement") && (
+                                <Sidebar.Item
+                                    routeName="announcement.index"
+                                    routeCheck="announcement.*"
+                                    icon={<MegaphoneIcon className="h-6 w-6" />}
+                                    setShowSidebar={setShowSidebar}
+                                >
+                                    Announcements
                                 </Sidebar.Item>
                             )}
                         </Sidebar>

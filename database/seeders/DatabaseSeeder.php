@@ -23,14 +23,6 @@ class DatabaseSeeder extends Seeder
 			PermissionSeeder::class,
 		]);
 
-		User::create([
-			'name' => 'Filbert Mangiri',
-			'email' => 'filbert.mangiri@student.umn.ac.id',
-			'username' => 'filbertmangiri',
-			'gender' => Gender::Male->value,
-			'password' => bcrypt('password'),
-		])->assignRole('super admin');
-
 		if (env('APP_DEBUG', true)) {
 			$this->call([
 				DepartmentSeeder::class,
@@ -40,7 +32,16 @@ class DatabaseSeeder extends Seeder
 				ProductSeeder::class,
 				LocationSeeder::class,
 				PrioritySeeder::class,
+				// AnnouncementSeeder::class,
 			]);
+		} else {
+			User::create([
+				'name' => 'Filbert Mangiri',
+				'email' => 'filbert.mangiri@student.umn.ac.id',
+				'username' => 'filbertmangiri',
+				'gender' => Gender::Male->value,
+				'password' => bcrypt('password'),
+			])->assignRole('super admin');
 		}
 	}
 }

@@ -156,7 +156,7 @@ class Ticket extends Model
 	{
 		parent::boot();
 
-		static::creating(function ($ticket) {
+		static::creating(function (Ticket $ticket) {
 			$ticket->number = self::generateNumber();
 			$ticket->issuer_id = auth()->user()->id;
 
