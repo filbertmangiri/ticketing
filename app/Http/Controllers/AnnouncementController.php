@@ -16,7 +16,7 @@ class AnnouncementController extends Controller
 
     public function index()
     {
-        $builder = Announcement::filterWithPagination();
+        $builder = Announcement::with('author')->filterWithPagination();
 
         $additional = Announcement::filterAdditional($builder);
 

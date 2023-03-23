@@ -19,10 +19,6 @@ const Create = ({ categories, locations, priorities, ...props }) => {
         attachments: [],
     });
 
-    useEffect(() => {
-        console.log(form.errors);
-    }, [form.errors]);
-
     const [products, setProducts] = useState([]);
 
     const fetchProducts = (category) => {

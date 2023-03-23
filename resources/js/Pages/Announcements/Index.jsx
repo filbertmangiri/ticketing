@@ -201,8 +201,9 @@ const Index = ({ ...props }) => {
                                             <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-white">
                                                 <Link
                                                     href={route(
-                                                        "announcement.show",
-                                                        announcement.id
+                                                        "user.show",
+                                                        announcement.author
+                                                            ?.username
                                                     )}
                                                 >
                                                     {announcement.author?.name}

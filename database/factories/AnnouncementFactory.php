@@ -15,7 +15,7 @@ class AnnouncementFactory extends Factory
         return [
             'title' => $this->faker->sentence,
             'body' => $this->faker->paragraph,
-            'author_id' => User::find(1)->id,
+            'author_id' => 1,
         ];
     }
 }

@@ -3,7 +3,7 @@ import {
     MoonIcon,
     SunIcon,
 } from "@heroicons/react/24/outline";
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 
 const ThemeToggle = ({ ...props }) => {
     const [theme, setTheme] = useState(localStorage.theme || null);
