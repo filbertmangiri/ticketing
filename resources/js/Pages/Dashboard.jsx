@@ -51,33 +51,35 @@ const Dashboard = ({
 
     return (
         <div className="flex w-full flex-col gap-y-10">
-            <div className="flex flex-col gap-y-3">
-                <span className="text-xl font-bold">Announcements</span>
-                <div className="flex items-center gap-x-4 rounded-md bg-gray-200 p-5 text-sm shadow-lg dark:bg-gray-800">
-                    <button
-                        className="transition-all hover:text-gray-500"
-                        onClick={setPreviousAnnouncement}
-                    >
-                        <ChevronLeftIcon className="h-5 w-5" />
-                    </button>
+            {announcements.length > 0 && (
+                <div className="flex flex-col gap-y-3">
+                    <span className="text-xl font-bold">Announcements</span>
+                    <div className="flex items-center gap-x-4 rounded-md bg-gray-200 p-5 text-sm shadow-lg dark:bg-gray-800">
+                        <button
+                            className="transition-all hover:text-gray-500"
+                            onClick={setPreviousAnnouncement}
+                        >
+                            <ChevronLeftIcon className="h-5 w-5" />
+                        </button>
 
-                    <div className="flex flex-grow flex-col">
-                        <div className="flex gap-x-3">
-                            <span>{announcement.title}</span>
-                            <span>({announcement.author?.name})</span>
-                            <span>{announcement.created_at}</span>
+                        <div className="flex flex-grow flex-col">
+                            <div className="flex gap-x-3">
+                                <span>{announcement.title}</span>
+                                <span>({announcement.author?.name})</span>
+                                <span>{announcement.created_at}</span>
+                            </div>
+                            <div>{announcement.body}</div>
                         </div>
-                        <div>{announcement.body}</div>
-                    </div>
 
-                    <button
-                        className="transition-all hover:text-gray-500"
-                        onClick={setNextAnnouncement}
-                    >
-                        <ChevronRightIcon className="h-5 w-5" />
-                    </button>
+                        <button
+                            className="transition-all hover:text-gray-500"
+                            onClick={setNextAnnouncement}
+                        >
+                            <ChevronRightIcon className="h-5 w-5" />
+                        </button>
+                    </div>
                 </div>
-            </div>
+            )}
 
             <div className="flex flex-col gap-y-3">
                 <span className="text-xl font-bold">
