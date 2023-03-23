@@ -25,6 +25,9 @@ class TicketResource extends JsonResource
 				'level' => $this->status->level(),
 			] : null,
 
+			'progress' => $this->progress ?? 0,
+			'progresses' => ProgressResource::collection($this->progresses),
+
 			'priority' => $this?->priority ? [
 				'id' => $this->priority->id,
 				'name' => $this->priority->name,
@@ -61,6 +64,9 @@ class TicketResource extends JsonResource
 					'issuer_id' => $this->issuer_id,
 					'closed_at' => $this->closed_at,
 				])),
+				'create_progress' => $request->user()?->can('createProgress', [Ticket::class, new Ticket([
+					'technician_id' => $this->technician_id,
+				])]),
 			],
 		];
 	}

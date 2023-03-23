@@ -1,7 +1,6 @@
 import AttachmentItem from "@/Components/AttachmentItem";
 import Input from "@/Components/Form/Input";
 import TextArea from "@/Components/Form/TextArea";
-import { auth } from "@/Helpers/Auth";
 import { can } from "@/Helpers/Permission";
 import { Toast } from "@/Helpers/Toast";
 import useModal from "@/Hooks/useModal";
@@ -10,7 +9,7 @@ import { Tab } from "@headlessui/react";
 import { CheckBadgeIcon } from "@heroicons/react/24/outline";
 import { Link, useForm } from "@inertiajs/react";
 import "ckeditor-tailwind-reset/ckeditor-tailwind-reset.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import DeleteCommentModal from "./Comment/DeleteModal";
 import EditCommentModal from "./Comment/EditModal";
@@ -18,6 +17,7 @@ import CommentItem from "./Comment/Item";
 import ReplyCommentModal from "./Comment/ReplyModal";
 import AssignModal from "./Partials/AssignModal";
 import CloseModal from "./Partials/CloseModal";
+import CreateProgressModal from "./Partials/CreateProgressModal";
 import EditModal from "./Partials/EditModal";
 import ReopenModal from "./Partials/ReopenModal";
 import SolvedModal from "./Partials/SolvedModal";
@@ -64,6 +64,9 @@ const Show = ({
 
     /* Solved */
     const solvedModal = useModal(false);
+
+    /* Progress */
+    const progressModal = useModal(false);
 
     /* Comment CRUD */
     const [selectedComment, setSelectedComment] = useState(null);
@@ -454,6 +457,38 @@ const Show = ({
                                 </div>
                             </div>
 
+                            <div className="flex flex-col gap-y-2">
+                                <div className="flex justify-between">
+                                    <span className="text-xl font-extrabold">
+                                        Progress
+                                    </span>
+
+                                    {ticket.can.create_progress && (
+                                        <button
+                                            type="button"
+                                            onClick={progressModal.open}
+                                            className="inline-flex justify-center rounded-md border border-transparent bg-green-700 py-1.5 px-3 text-sm font-medium text-white shadow-sm transition hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:w-fit"
+                                        >
+                                            Update
+                                        </button>
+                                    )}
+                                </div>
+                                <div className="flex h-4 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
+                                    <div
+                                        className="flex flex-col justify-center overflow-hidden bg-blue-500 text-center text-xs text-white"
+                                        role="progressbar"
+                                        style={{
+                                            width: `${ticket.progress}%`,
+                                        }}
+                                        aria-valuenow={ticket.progress}
+                                        aria-valuemin={0}
+                                        aria-valuemax={100}
+                                    >
+                                        {ticket.progress}%
+                                    </div>
+                                </div>
+                            </div>
+
                             {ticket.solved_at && (
                                 <div className="flex items-center justify-between rounded-lg bg-green-600 px-5 py-3 text-white dark:bg-green-700">
                                     <div className="flex gap-2">
@@ -604,6 +639,14 @@ const Show = ({
                         <SolvedModal
                             isOpen={solvedModal.isOpen}
                             close={solvedModal.close}
+                            ticket={ticket}
+                        />
+                    )}
+
+                    {ticket.can.create_progress && (
+                        <CreateProgressModal
+                            isOpen={progressModal.isOpen}
+                            close={progressModal.close}
                             ticket={ticket}
                         />
                     )}

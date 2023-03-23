@@ -18,6 +18,7 @@ class Ticket extends Model
 		'title',
 		'body',
 		'status',
+		'progress',
 
 		'priority_id',
 		'product_id',
@@ -150,6 +151,11 @@ class Ticket extends Model
 	public function comments()
 	{
 		return $this->hasMany(Comment::class);
+	}
+
+	public function progresses()
+	{
+		return $this->hasMany(Progress::class);
 	}
 
 	public static function boot()

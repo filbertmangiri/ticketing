@@ -15,6 +15,7 @@ use App\Http\Requests\Ticket\StoreTicketRequest;
 use App\Http\Requests\Ticket\AssignTicketRequest;
 use App\Http\Requests\Ticket\UpdateTicketRequest;
 use App\Http\Resources\CommentResource;
+use Illuminate\Validation\Rule;
 
 class TicketController extends Controller
 {
@@ -88,12 +89,11 @@ class TicketController extends Controller
 
 	public function show(Ticket $ticket)
 	{
-		$ticket = fn () => new TicketResource($ticket->load('issuer', 'issuer.subDepartment', 'issuer.subDepartment.department', 'technician', 'product', 'product.category', 'location', 'priority', 'attachments'));
+		$ticket = fn () => new TicketResource($ticket->load('issuer', 'issuer.subDepartment', 'issuer.subDepartment.department', 'technician', 'product', 'product.category', 'location', 'priority', 'attachments', 'progresses'));
 		$technicians = fn () => User::permission('support assigned ticket')->get();
 		$categories = fn () => Category::select('id', 'name')->get();
 		$locations = fn () => Location::select('id', 'name')->get();
 		$priorities = fn () => Priority::select('id', 'name')->orderBy('deadline_days', 'desc')->get();
-
 		$comments = fn () => CommentResource::collection($ticket()->comments->where('parent_id', null)->sortByDesc('created_at'));
 
 		return inertia('Tickets/Show', compact('ticket', 'technicians', 'categories', 'locations', 'priorities', 'comments'));
@@ -146,6 +146,26 @@ class TicketController extends Controller
 
 		$ticket->update([
 			'closed_at' => null,
+		]);
+	}
+
+	public function createProgress(Request $request, Ticket $ticket)
+	{
+		$this->authorize('createProgress', [Ticket::class, $ticket]);
+
+		$validated = $request->validate([
+			'value' => ['required', 'integer', 'min:0', 'max:100', function ($attribute, $value, $fail) use ($ticket) {
+				if ($value <= $ticket->progress) {
+					$fail('Progress value must be greater than the last progress value.');
+				}
+			}],
+			'description' => ['required', 'string', 'min:5', 'max:1000'],
+		]);
+
+		$ticket->progresses()->create($validated);
+
+		$ticket->update([
+			'progress' => $validated['value'],
 		]);
 	}
 }

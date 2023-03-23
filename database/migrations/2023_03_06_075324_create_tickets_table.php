@@ -24,6 +24,7 @@ return new class extends Migration
 			$table->longText('body')->fulltext();
 
 			$table->string('status')->default(Status::Submitted->value);
+			$table->integer('progress')->default(0);
 
 			$table->foreignIdFor(Priority::class, 'priority_id')->nullable()->constrained()->nullOnDelete();
 			$table->string('priority_name');

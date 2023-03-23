@@ -24,7 +24,7 @@ class PermissionSeeder extends Seeder
 		Permission::create(['name' => 'action closed ticket']);
 
 		/* Roles */
-		$super_admin = Role::create(['name' => 'super admin']);
+		$super_admin = Role::firstOrCreate(['name' => 'super admin']);
 		$super_admin->givePermissionTo([
 			...Permission::getResourcesNames(['user', 'department', 'sub_department', 'category', 'product', 'location', 'priority', 'comment', 'announcement']),
 			...Permission::getResourceNames('ticket', ['create']),
@@ -33,14 +33,14 @@ class PermissionSeeder extends Seeder
 			'action closed ticket',
 		]);
 
-		$technician = Role::create(['name' => 'technician']);
+		$technician = Role::firstOrCreate(['name' => 'technician']);
 		$technician->givePermissionTo([
 			'view ticket',
 			'view assigned ticket',
 			'support assigned ticket',
 		]);
 
-		$user = Role::create(['name' => 'user']);
+		$user = Role::firstOrCreate(['name' => 'user']);
 		$user->givePermissionTo(['create ticket']);
 	}
 }

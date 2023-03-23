@@ -90,4 +90,9 @@ class TicketPolicy
 	{
 		return $user->can('close ticket');
 	}
+
+	public function createProgress(User $user, Ticket $ticket): bool
+	{
+		return $user->id === $ticket->technician_id;
+	}
 }

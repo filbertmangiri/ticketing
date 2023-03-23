@@ -1,5 +1,6 @@
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
+import { twMerge } from "tailwind-merge";
 
 const Input = ({ children, ...props }) => {
     return <div {...props}>{children}</div>;
@@ -23,14 +24,17 @@ Input.Label = ({ htmlFor, children, hint, ...props }) => {
     );
 };
 
-Input.Field = ({ type = "text", id, value, ...props }) => {
+Input.Field = ({ type = "text", id, value, className = "", ...props }) => {
     return (
         <input
             {...props}
             {...{ id }}
             type={type}
             value={value || ""}
-            className="w-full rounded-lg bg-gray-300 py-3 px-4 text-sm focus:ring-blue-500 dark:bg-gray-700"
+            className={twMerge(
+                "w-full rounded-lg bg-gray-300 py-3 px-4 text-sm focus:ring-blue-500 dark:bg-gray-700",
+                className
+            )}
         />
     );
 };
