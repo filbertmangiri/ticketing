@@ -306,13 +306,16 @@ const UsersTable = ({ department, usersResource, departments, roles }) => {
                                                                 {can(
                                                                     "view user"
                                                                 ) && (
-                                                                    <Menu.Item
-                                                                        as="a"
-                                                                        href="#"
-                                                                        className="flex w-full items-center rounded-t-lg px-4 py-2 text-left hover:bg-gray-400 dark:hover:bg-gray-600"
-                                                                    >
-                                                                        <ArrowTopRightOnSquareIcon className="mr-3 h-4 w-4" />
-                                                                        View
+                                                                    <Menu.Item className="flex w-full items-center rounded-t-lg px-4 py-2 text-left hover:bg-gray-400 dark:hover:bg-gray-600">
+                                                                        <Link
+                                                                            href={route(
+                                                                                "user.show",
+                                                                                user.username
+                                                                            )}
+                                                                        >
+                                                                            <ArrowTopRightOnSquareIcon className="mr-3 h-4 w-4" />
+                                                                            View
+                                                                        </Link>
                                                                     </Menu.Item>
                                                                 )}
                                                                 {can(

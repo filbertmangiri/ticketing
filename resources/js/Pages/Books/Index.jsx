@@ -6,6 +6,7 @@ import SortingHeader from "@/Components/Datatable/SortingHeader";
 import { can } from "@/Helpers/Permission";
 import { Toast } from "@/Helpers/Toast";
 import useModal from "@/Hooks/useModal";
+import DashboardLayout from "@/Layouts/Dashboard";
 import { Menu, Transition } from "@headlessui/react";
 import {
     ArrowPathIcon,
@@ -23,31 +24,17 @@ import {
     useRef,
     useState,
 } from "react";
-import CreateModal from "../Users/Partials/CreateModal";
-import DeleteModal from "../Users/Partials/DeleteModal";
-import EditModal from "../Users/Partials/EditModal";
-import RestoreModal from "../Users/Partials/RestoreModal";
-import config from "../Users/table-config";
+import CreateModal from "./Partials/CreateModal";
+import DeleteModal from "./Partials/DeleteModal";
+import EditModal from "./Partials/EditModal";
+import RestoreModal from "./Partials/RestoreModal";
+import config from "./table-config";
 
-const UsersTable = ({ subDepartment, usersResource, departments, roles }) => {
-    const {
-        data: users,
-        meta,
-        queries,
-        queriesBag,
-        attributes,
-    } = usersResource;
+const Index = ({ ...props }) => {
+    const { data: books, meta, queries, attributes } = props.books;
 
     /* URL Parameters */
-    const [params, setParams] = useState(() => {
-        const newQueries = {};
-
-        Object.keys(queries).forEach((key) => {
-            newQueries[key.replace(queriesBag + ".", "")] = queries[key];
-        });
-
-        return newQueries;
-    });
+    const [params, setParams] = useState(queries);
 
     /* Prevent page overload */
     const oldQueries = useRef({
@@ -71,19 +58,11 @@ const UsersTable = ({ subDepartment, usersResource, departments, roles }) => {
             oldQueries.current.q = query.q;
             oldQueries.current.filter = query.filter;
 
-            Object.keys(query).forEach(function (key) {
-                query[queriesBag + "." + key] = query[key];
-            });
-
             /* Request data based on modified URL parameters */
-            router.post(
-                route("subDepartment.show", subDepartment.slug),
-                pickBy(query),
-                {
-                    preserveState: true,
-                    preserveScroll: true,
-                }
-            );
+            router.get(route("book.index"), pickBy(query), {
+                preserveState: true,
+                preserveScroll: true,
+            });
         }, 300),
         []
     );
@@ -108,7 +87,7 @@ const UsersTable = ({ subDepartment, usersResource, departments, roles }) => {
     } = useModal(false);
 
     /* Edit */
-    const [selectedUserToEdit, setSelectedUserToEdit] = useState({});
+    const [selectedBookToEdit, setSelectedBookToEdit] = useState({});
 
     const {
         isOpen: isEditModalOpen,
@@ -116,8 +95,8 @@ const UsersTable = ({ subDepartment, usersResource, departments, roles }) => {
         close: closeEditModal,
     } = useModal(false);
 
-    const editHandler = (user) => {
-        setSelectedUserToEdit(user);
+    const editHandler = (book) => {
+        setSelectedBookToEdit(book);
         openEditModal();
     };
 
@@ -128,20 +107,20 @@ const UsersTable = ({ subDepartment, usersResource, departments, roles }) => {
         close: closeDeleteModal,
     } = useModal(false);
 
-    const [selectedUserToDelete, setSelectedUserToDelete] = useState({});
+    const [selectedBookToDelete, setSelectedBookToDelete] = useState({});
 
-    const deleteHandler = (user) => {
-        setSelectedUserToDelete(user);
+    const deleteHandler = (book) => {
+        setSelectedBookToDelete(book);
         openDeleteModal();
     };
 
     const confirmDeleteHandler = () => {
         router.delete(
             route(
-                `user.${
-                    selectedUserToDelete.deleted_at ? "forceDelete" : "destroy"
+                `book.${
+                    selectedBookToDelete.deleted_at ? "forceDelete" : "destroy"
                 }`,
-                selectedUserToDelete.username
+                selectedBookToDelete.slug
             ),
             {
                 preserveScroll: true,
@@ -149,8 +128,8 @@ const UsersTable = ({ subDepartment, usersResource, departments, roles }) => {
                     closeDeleteModal();
                     Toast(
                         "success",
-                        `User successfully ${
-                            selectedUserToDelete.deleted_at
+                        `Book successfully ${
+                            selectedBookToDelete.deleted_at
                                 ? "deleted permanently"
                                 : "deleted"
                         }`
@@ -167,22 +146,22 @@ const UsersTable = ({ subDepartment, usersResource, departments, roles }) => {
         close: closeRestoreModal,
     } = useModal(false);
 
-    const [selectedUserToRestore, setSelectedUserToRestore] = useState({});
+    const [selectedBookToRestore, setSelectedBookToRestore] = useState({});
 
-    const restoreHandler = (user) => {
-        setSelectedUserToRestore(user);
+    const restoreHandler = (book) => {
+        setSelectedBookToRestore(book);
         openRestoreModal();
     };
 
     const confirmRestoreHandler = () => {
         router.patch(
-            route("user.restore", selectedUserToRestore.username),
+            route("book.restore", selectedBookToRestore.slug),
             {},
             {
                 preserveScroll: true,
                 onSuccess: () => {
                     closeRestoreModal();
-                    Toast("success", "User successfully restored");
+                    Toast("success", "Book successfully restored");
                 },
             }
         );
@@ -190,7 +169,7 @@ const UsersTable = ({ subDepartment, usersResource, departments, roles }) => {
 
     return (
         <>
-            <div className="flex h-full flex-col gap-y-3">
+            <div className="flex w-full flex-col gap-y-3 rounded-lg border border-gray-300 bg-gray-200 p-4 dark:border-gray-700 dark:bg-gray-800">
                 {/* Header */}
                 <div className="flex justify-between gap-y-2 max-md:flex-col">
                     <div className="flex gap-y-2 gap-x-5 max-md:flex-col">
@@ -203,7 +182,7 @@ const UsersTable = ({ subDepartment, usersResource, departments, roles }) => {
                             />
                         </div>
                         <div>
-                            {can("create user") && (
+                            {can("create book") && (
                                 <button
                                     type="button"
                                     onClick={openCreateModal}
@@ -238,47 +217,26 @@ const UsersTable = ({ subDepartment, usersResource, departments, roles }) => {
                             />
 
                             <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                                {users.length > 0 ? (
-                                    users.map((user, key) => (
+                                {books.length > 0 ? (
+                                    books.map((book, key) => (
                                         <tr
-                                            key={`user-${key}`}
+                                            key={`book-${key}`}
                                             className="odd:bg-gray-50 dark:odd:bg-gray-700"
                                         >
                                             <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-white">
-                                                {user.id}
+                                                {book.id}
                                             </td>
                                             <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-white">
-                                                {user.name}
+                                                <a
+                                                    href={book.url}
+                                                    target="_blank"
+                                                    className="font-bold text-blue-600 underline dark:text-blue-400"
+                                                >
+                                                    {book.title}
+                                                </a>
                                             </td>
-                                            <td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-gray-200">
-                                                {user.email}
-                                            </td>
-                                            <td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-gray-200">
-                                                {user.username}
-                                            </td>
-                                            <td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-gray-200">
-                                                {user.phone || "-"}
-                                            </td>
-                                            <td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-gray-200">
-                                                {user.gender.label}
-                                            </td>
-                                            <td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-gray-200">
-                                                {user.department?.name ? (
-                                                    <Link
-                                                        href={route(
-                                                            "department.show",
-                                                            user.department.slug
-                                                        )}
-                                                    >
-                                                        {user.department.name}
-                                                    </Link>
-                                                ) : (
-                                                    "-"
-                                                )}
-                                            </td>
-                                            <td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-gray-200">
-                                                {user.sub_department?.name ||
-                                                    "-"}
+                                            <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-white">
+                                                {book.type.label}
                                             </td>
                                             <td>
                                                 <Menu
@@ -300,29 +258,25 @@ const UsersTable = ({ subDepartment, usersResource, departments, roles }) => {
                                                     >
                                                         <Menu.Items className="absolute right-0 z-10 w-fit divide-y divide-gray-400 rounded-lg border border-gray-300 bg-gray-100 shadow dark:divide-gray-600 dark:border-gray-700 dark:bg-gray-900">
                                                             <div>
+                                                                <Menu.Item className="flex w-full items-center rounded-t-lg px-4 py-2 text-left hover:bg-gray-400 dark:hover:bg-gray-600">
+                                                                    <a
+                                                                        href={
+                                                                            book.url
+                                                                        }
+                                                                        target="_blank"
+                                                                    >
+                                                                        <ArrowTopRightOnSquareIcon className="mr-3 h-4 w-4" />
+                                                                        View
+                                                                    </a>
+                                                                </Menu.Item>
                                                                 {can(
-                                                                    "view user"
-                                                                ) && (
-                                                                    <Menu.Item className="flex w-full items-center rounded-t-lg px-4 py-2 text-left hover:bg-gray-400 dark:hover:bg-gray-600">
-                                                                        <Link
-                                                                            href={route(
-                                                                                "user.show",
-                                                                                user.username
-                                                                            )}
-                                                                        >
-                                                                            <ArrowTopRightOnSquareIcon className="mr-3 h-4 w-4" />
-                                                                            View
-                                                                        </Link>
-                                                                    </Menu.Item>
-                                                                )}
-                                                                {can(
-                                                                    "update user"
+                                                                    "update book"
                                                                 ) && (
                                                                     <Menu.Item
                                                                         as="button"
                                                                         onClick={() => {
                                                                             editHandler(
-                                                                                user
+                                                                                book
                                                                             );
                                                                         }}
                                                                         className="flex w-full items-center px-4 py-2 text-left hover:bg-gray-400 dark:hover:bg-gray-600"
@@ -331,15 +285,15 @@ const UsersTable = ({ subDepartment, usersResource, departments, roles }) => {
                                                                         Edit
                                                                     </Menu.Item>
                                                                 )}
-                                                                {user.deleted_at &&
+                                                                {book.deleted_at &&
                                                                     can(
-                                                                        "restore user"
+                                                                        "restore book"
                                                                     ) && (
                                                                         <Menu.Item
                                                                             as="button"
                                                                             onClick={() => {
                                                                                 restoreHandler(
-                                                                                    user
+                                                                                    book
                                                                                 );
                                                                             }}
                                                                             className="flex w-full items-center px-4 py-2 text-left hover:bg-gray-400 dark:hover:bg-gray-600"
@@ -352,16 +306,16 @@ const UsersTable = ({ subDepartment, usersResource, departments, roles }) => {
                                                             <div>
                                                                 {can(
                                                                     `${
-                                                                        user.deleted_at
+                                                                        book.deleted_at
                                                                             ? "force "
                                                                             : ""
-                                                                    }delete user`
+                                                                    }delete book`
                                                                 ) && (
                                                                     <Menu.Item
                                                                         as="button"
                                                                         onClick={() => {
                                                                             deleteHandler(
-                                                                                user
+                                                                                book
                                                                             );
                                                                         }}
                                                                         className="flex w-full items-center rounded-b-lg px-4 py-2 text-left text-red-500 hover:bg-gray-400 dark:hover:bg-gray-600"
@@ -403,41 +357,35 @@ const UsersTable = ({ subDepartment, usersResource, departments, roles }) => {
             </div>
 
             {/* CRUD Modals */}
-            {can("create user") && (
+            {can("create book") && (
                 <CreateModal
                     isOpen={isCreateModalOpen}
                     close={closeCreateModal}
-                    departments={departments}
-                    selectedDepartment={subDepartment.department}
-                    selectedSubDepartment={subDepartment}
-                    roles={roles}
                 />
             )}
 
-            {can("update user") && (
+            {can("update book") && (
                 <EditModal
                     isOpen={isEditModalOpen}
                     close={closeEditModal}
-                    user={selectedUserToEdit}
-                    departments={departments}
-                    roles={roles}
+                    book={selectedBookToEdit}
                 />
             )}
 
-            {(can("delete user") || can("force delete user")) && (
+            {(can("delete book") || can("force delete book")) && (
                 <DeleteModal
                     isOpen={isDeleteModalOpen}
                     close={closeDeleteModal}
-                    user={selectedUserToDelete}
+                    book={selectedBookToDelete}
                     deleteHandler={confirmDeleteHandler}
                 />
             )}
 
-            {can("restore user") && (
+            {can("restore book") && (
                 <RestoreModal
                     isOpen={isRestoreModalOpen}
                     close={closeRestoreModal}
-                    user={selectedUserToRestore}
+                    book={selectedBookToRestore}
                     restoreHandler={confirmRestoreHandler}
                 />
             )}
@@ -445,4 +393,6 @@ const UsersTable = ({ subDepartment, usersResource, departments, roles }) => {
     );
 };
 
-export default UsersTable;
+Index.layout = (page) => <DashboardLayout children={page} title="Books" />;
+
+export default Index;

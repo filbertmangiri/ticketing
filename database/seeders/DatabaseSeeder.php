@@ -41,7 +41,7 @@ class DatabaseSeeder extends Seeder
 				'username' => 'filbertmangiri',
 				'gender' => Gender::Male->value,
 				'password' => bcrypt('password'),
-			])->assignRole('super admin');
+			])->assignRole('admin');
 		}
 	}
 }

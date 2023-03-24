@@ -2,6 +2,7 @@ import AuthNavbar from "@/Components/Navigation/AuthNavbar";
 import Sidebar from "@/Components/Navigation/Sidebar";
 import { can } from "@/Helpers/Permission";
 import {
+    BookOpenIcon,
     BuildingOffice2Icon,
     BuildingOfficeIcon,
     DevicePhoneMobileIcon,
@@ -158,6 +159,14 @@ const DashboardLayout = ({ title, children }) => {
                                     Announcements
                                 </Sidebar.Item>
                             )}
+                            <Sidebar.Item
+                                routeName="book.index"
+                                routeCheck="book.*"
+                                icon={<BookOpenIcon className="h-6 w-6" />}
+                                setShowSidebar={setShowSidebar}
+                            >
+                                Knowledge Base
+                            </Sidebar.Item>
                         </Sidebar>
                     )}
 

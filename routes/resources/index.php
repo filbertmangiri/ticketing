@@ -10,3 +10,4 @@ require __DIR__ . '/ticket.php';
 require __DIR__ . '/comment.php';
 require __DIR__ . '/priority.php';
 require __DIR__ . '/announcement.php';
+require __DIR__ . '/book.php';

@@ -15,7 +15,7 @@ class PermissionSeeder extends Seeder
 		app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
 		/* Permissions */
-		Permission::createResources(['user', 'department', 'sub_department', 'category', 'product', 'location', 'priority', 'comment', 'announcement']);
+		Permission::createResources(['user', 'department', 'sub_department', 'category', 'product', 'location', 'priority', 'comment', 'announcement', 'book']);
 		Permission::createResource('ticket');
 		Permission::create(['name' => 'assign ticket']);
 		Permission::create(['name' => 'close ticket']);
@@ -24,9 +24,9 @@ class PermissionSeeder extends Seeder
 		Permission::create(['name' => 'action closed ticket']);
 
 		/* Roles */
-		$super_admin = Role::firstOrCreate(['name' => 'super admin']);
+		$super_admin = Role::firstOrCreate(['name' => 'admin']);
 		$super_admin->givePermissionTo([
-			...Permission::getResourcesNames(['user', 'department', 'sub_department', 'category', 'product', 'location', 'priority', 'comment', 'announcement']),
+			...Permission::getResourcesNames(['user', 'department', 'sub_department', 'category', 'product', 'location', 'priority', 'comment', 'announcement', 'book']),
 			...Permission::getResourceNames('ticket', ['create']),
 			'assign ticket',
 			'close ticket',
