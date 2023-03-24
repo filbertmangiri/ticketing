@@ -1,4 +1,5 @@
 import Input from "@/Components/Form/Input";
+import Select from "@/Components/Form/Select";
 import TextArea from "@/Components/Form/TextArea";
 import Modal from "@/Components/Modal";
 import { Toast } from "@/Helpers/Toast";
@@ -6,7 +7,7 @@ import { useForm } from "@inertiajs/react";
 
 const CreateProgressModal = ({ isOpen, close, ticket }) => {
     const form = useForm({
-        value: "",
+        value: null,
         description: "",
     });
 
@@ -27,16 +28,32 @@ const CreateProgressModal = ({ isOpen, close, ticket }) => {
         form.setData(e.target.name, e.target.value);
     };
 
+    let progresses = [];
+
+    for (let i = 10; i <= 100; i += 10) {
+        progresses.push({ value: i, label: `${i}%` });
+    }
+
     return (
         <Modal title="Update progress" isOpen={isOpen} close={close}>
             <Modal.Body className="flex flex-col gap-y-3">
                 <Input>
                     <Input.Label>Progress (percentage)</Input.Label>
-                    <Input.Field
+                    {/* <Input.Field
                         type="number"
                         name="value"
                         value={form.data.value}
                         onChange={inputHandler}
+                    /> */}
+                    <Select
+                        options={progresses.map((progress) => ({
+                            value: progress.value,
+                            label: progress.label,
+                        }))}
+                        value={form.data.value}
+                        onChange={(value) => {
+                            form.setData("value", value);
+                        }}
                     />
                     <Input.Errors
                         errors={form.errors.value || form.errors.slug}

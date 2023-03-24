@@ -9,7 +9,7 @@ import { Tab } from "@headlessui/react";
 import { CheckBadgeIcon } from "@heroicons/react/24/outline";
 import { Link, useForm } from "@inertiajs/react";
 import "ckeditor-tailwind-reset/ckeditor-tailwind-reset.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import DeleteCommentModal from "./Comment/DeleteModal";
 import EditCommentModal from "./Comment/EditModal";
@@ -675,8 +675,30 @@ const Show = ({
                     )}
                 </Tab.Panel>
 
-                <Tab.Panel className="h-fit min-h-full bg-red-500">
-                    <div>This is progress page</div>
+                <Tab.Panel
+                    as="ul"
+                    className="flex h-fit min-h-full flex-col gap-y-3 rounded-lg bg-gray-200 p-5 dark:bg-gray-800"
+                >
+                    {ticket.progresses?.length > 0 &&
+                        ticket.progresses?.map((progress, index) => (
+                            <li key={index} className="border-l-4 pl-16">
+                                <div className="flex h-fit min-h-[100px] flex-col gap-y-2 rounded-lg bg-blue-300 p-3 text-sm dark:bg-gray-700">
+                                    <div className="flex justify-between">
+                                        <span className="font-bold">
+                                            {[
+                                                "created",
+                                                "solved",
+                                                "closed",
+                                            ].includes(progress.value)
+                                                ? `Ticket ${progress.value}`
+                                                : `Progress updated to ${progress.value}%`}
+                                        </span>
+                                        <span>{progress.created_at}</span>
+                                    </div>
+                                    <div>{progress.description}</div>
+                                </div>
+                            </li>
+                        ))}
                 </Tab.Panel>
             </Tab.Panels>
         </Tab.Group>

@@ -93,6 +93,10 @@ class TicketPolicy
 
 	public function createProgress(User $user, Ticket $ticket): bool
 	{
+		if ($ticket->closed_at) {
+			return false;
+		}
+
 		return $user->id === $ticket->technician_id;
 	}
 }

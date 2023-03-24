@@ -13,6 +13,7 @@ class Progress extends Model
         'ticket_id',
         'value',
         'description',
+        'created_at',
     ];
 
     public function ticket()

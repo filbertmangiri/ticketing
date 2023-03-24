@@ -4,7 +4,7 @@ import { Tab } from "@headlessui/react";
 import { twMerge } from "tailwind-merge";
 import UsersTable from "./UsersTable";
 
-const Show = ({ subDepartment, departments, users }) => {
+const Show = ({ subDepartment, departments, users, roles }) => {
     return (
         <Tab.Group as="div" className="flex h-full w-full flex-col gap-y-2">
             <Tab.List className="flex space-x-1 rounded-xl bg-gray-200 p-1 dark:bg-gray-800">
@@ -48,6 +48,7 @@ const Show = ({ subDepartment, departments, users }) => {
                             subDepartment={subDepartment}
                             usersResource={users}
                             departments={departments}
+                            roles={roles}
                         />
                     </Tab.Panel>
                 )}

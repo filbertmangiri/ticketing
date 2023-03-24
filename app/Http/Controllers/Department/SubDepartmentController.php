@@ -10,6 +10,7 @@ use App\Http\Resources\UserResource;
 use App\Models\Department\Department;
 use App\Models\Department\SubDepartment;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 
 class SubDepartmentController extends Controller
 {
@@ -54,7 +55,9 @@ class SubDepartmentController extends Controller
 
 		$users = fn () => UserResource::collection($builder)->additional($additional);
 
-		return inertia('SubDepartments/Show', compact('subDepartment', 'departments', 'users'));
+		$roles = fn () => Role::all();
+
+		return inertia('SubDepartments/Show', compact('subDepartment', 'departments', 'users', 'roles'));
 	}
 
 	public function update(UpdateSubDepartmentRequest $request, SubDepartment $subDepartment)

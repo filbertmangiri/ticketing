@@ -153,6 +153,10 @@ class TicketController extends Controller
 	{
 		$this->authorize('createProgress', [Ticket::class, $ticket]);
 
+		$request->merge([
+			'value' => $request->value['value'],
+		]);
+
 		$validated = $request->validate([
 			'value' => ['required', 'integer', 'min:0', 'max:100', function ($attribute, $value, $fail) use ($ticket) {
 				if ($value <= $ticket->progress) {
@@ -163,6 +167,12 @@ class TicketController extends Controller
 		]);
 
 		$ticket->progresses()->create($validated);
+
+		if ($validated['value'] == 100) {
+			$ticket->update([
+				'closed_at' => now(),
+			]);
+		}
 
 		$ticket->update([
 			'progress' => $validated['value'],

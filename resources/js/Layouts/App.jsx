@@ -33,9 +33,11 @@ const AppLayout = ({ title, children }) => {
 
     useEffect(() => {
         themeInit();
-
-        alert && Toast(alert.type, alert.message);
     }, []);
+
+    useEffect(() => {
+        alert && Toast(alert.type, alert.message);
+    }, [alert]);
 
     return (
         <div className="bg-gray-100 font-sans text-black antialiased dark:bg-gray-900 dark:text-white">

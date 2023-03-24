@@ -29,7 +29,7 @@ import EditModal from "../Users/Partials/EditModal";
 import RestoreModal from "../Users/Partials/RestoreModal";
 import config from "../Users/table-config";
 
-const UsersTable = ({ department, usersResource, departments }) => {
+const UsersTable = ({ department, usersResource, departments, roles }) => {
     const {
         data: users,
         meta,
@@ -409,6 +409,7 @@ const UsersTable = ({ department, usersResource, departments }) => {
                     close={closeCreateModal}
                     departments={departments}
                     selectedDepartment={department}
+                    roles={roles}
                 />
             )}
 
@@ -418,6 +419,7 @@ const UsersTable = ({ department, usersResource, departments }) => {
                     close={closeEditModal}
                     user={selectedUserToEdit}
                     departments={departments}
+                    roles={roles}
                 />
             )}
 

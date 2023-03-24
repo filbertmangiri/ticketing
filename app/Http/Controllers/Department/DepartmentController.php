@@ -11,6 +11,7 @@ use App\Http\Resources\Department\SubDepartmentResource;
 use App\Http\Resources\UserResource;
 use App\Models\Department\SubDepartment;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 
 class DepartmentController extends Controller
 {
@@ -56,7 +57,9 @@ class DepartmentController extends Controller
 
 		$users = fn () => UserResource::collection($builder)->additional($additional);
 
-		return inertia('Departments/Show', compact('department', 'departments', 'subDepartments', 'users'));
+		$roles = fn () => Role::all();
+
+		return inertia('Departments/Show', compact('department', 'departments', 'subDepartments', 'users', 'roles'));
 	}
 
 	public function update(UpdateDepartmentRequest $request, Department $department)
