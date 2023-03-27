@@ -473,7 +473,7 @@ const Show = ({
                                         </button>
                                     )}
                                 </div>
-                                <div className="flex h-4 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
+                                <div className="flex h-4 w-full overflow-hidden rounded-full bg-gray-300 dark:bg-gray-700">
                                     <div
                                         className="flex flex-col justify-center overflow-hidden bg-blue-500 text-center text-xs text-white"
                                         role="progressbar"
