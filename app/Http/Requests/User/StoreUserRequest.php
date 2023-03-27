@@ -25,7 +25,7 @@ class StoreUserRequest extends FormRequest
 		$this->merge([
 			'department_id' => $this->department['value'] ?? null,
 			'sub_department_id' => $this->sub_department['value'] ?? null,
-			'roles' => array_map(fn ($role) => $role['label'], $this->roles),
+			'roles' => $this->roles ? array_map(fn ($role) => $role['label'], $this->roles) : [],
 			'password' => bcrypt('password'),
 		]);
 	}
