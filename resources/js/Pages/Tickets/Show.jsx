@@ -9,7 +9,7 @@ import { Tab } from "@headlessui/react";
 import { CheckBadgeIcon } from "@heroicons/react/24/outline";
 import { Link, useForm } from "@inertiajs/react";
 import "ckeditor-tailwind-reset/ckeditor-tailwind-reset.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import DeleteCommentModal from "./Comment/DeleteModal";
 import EditCommentModal from "./Comment/EditModal";
@@ -49,6 +49,10 @@ const Show = ({
             },
         });
     };
+
+    useEffect(() => {
+        console.log(ticket?.can?.create_progress);
+    }, []);
 
     /* Edit */
     const editModal = useModal(false);
