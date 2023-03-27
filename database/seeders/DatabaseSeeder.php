@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
 			PermissionSeeder::class,
 		]);
 
-		if (env('APP_DEBUG', true)) {
+		if (env('APP_DEBUG', true) == true) {
 			$this->call([
 				DepartmentSeeder::class,
 				SubDepartmentSeeder::class,
