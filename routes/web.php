@@ -6,7 +6,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
-	Route::get('/', DashboardController::class)
+	Route::match(['GET', 'POST'], '/', DashboardController::class)
 		->name('dashboard');
 
 	Route::get('download', DownloadController::class)

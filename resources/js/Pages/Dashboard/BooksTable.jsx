@@ -6,7 +6,6 @@ import SortingHeader from "@/Components/Datatable/SortingHeader";
 import { can } from "@/Helpers/Permission";
 import { Toast } from "@/Helpers/Toast";
 import useModal from "@/Hooks/useModal";
-import DashboardLayout from "@/Layouts/Dashboard";
 import { Menu, Transition } from "@headlessui/react";
 import {
     ArrowPathIcon,
@@ -24,17 +23,25 @@ import {
     useRef,
     useState,
 } from "react";
-import CreateModal from "./Partials/CreateModal";
-import DeleteModal from "./Partials/DeleteModal";
-import EditModal from "./Partials/EditModal";
-import RestoreModal from "./Partials/RestoreModal";
-import config from "./table-config";
+import CreateModal from "../Books/Partials/CreateModal";
+import DeleteModal from "../Books/Partials/DeleteModal";
+import EditModal from "../Books/Partials/EditModal";
+import RestoreModal from "../Books/Partials/RestoreModal";
+import config from "../Books/table-config";
 
-const Index = ({ ...props }) => {
-    const { data: books, meta, queries, attributes } = props.books;
+const BooksTable = ({ ...props }) => {
+    const { data: books, meta, queries, queriesBag, attributes } = props.books;
 
     /* URL Parameters */
-    const [params, setParams] = useState(queries);
+    const [params, setParams] = useState(() => {
+        const newQueries = {};
+
+        Object.keys(queries).forEach((key) => {
+            newQueries[key.replace(queriesBag + ".", "")] = queries[key];
+        });
+
+        return newQueries;
+    });
 
     /* Prevent page overload */
     const oldQueries = useRef({
@@ -58,8 +65,12 @@ const Index = ({ ...props }) => {
             oldQueries.current.q = query.q;
             oldQueries.current.filter = query.filter;
 
+            Object.keys(query).forEach(function (key) {
+                query[queriesBag + "." + key] = query[key];
+            });
+
             /* Request data based on modified URL parameters */
-            router.get(route("book.index"), pickBy(query), {
+            router.post(route("dashboard"), pickBy(query), {
                 preserveState: true,
                 preserveScroll: true,
             });
@@ -169,7 +180,7 @@ const Index = ({ ...props }) => {
 
     return (
         <>
-            <div className="flex w-full flex-col gap-y-3 rounded-lg border border-gray-300 bg-gray-200 p-4 dark:border-gray-700 dark:bg-gray-800">
+            <div className="flex min-h-[300px] w-full flex-col gap-y-3 rounded-lg border border-gray-300 bg-gray-200 p-4 dark:border-gray-700 dark:bg-gray-800">
                 {/* Header */}
                 <div className="flex justify-between gap-y-2 max-md:flex-col">
                     <div className="flex gap-y-2 gap-x-5 max-md:flex-col">
@@ -400,6 +411,4 @@ const Index = ({ ...props }) => {
     );
 };
 
-Index.layout = (page) => <DashboardLayout children={page} title="Books" />;
-
-export default Index;
+export default BooksTable;

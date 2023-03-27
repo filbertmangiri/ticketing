@@ -5,7 +5,6 @@ import SortingHeader from "@/Components/Datatable/SortingHeader";
 import { auth } from "@/Helpers/Auth";
 import { can } from "@/Helpers/Permission";
 import useModal from "@/Hooks/useModal";
-import DashboardLayout from "@/Layouts/Dashboard";
 import { Menu, Transition } from "@headlessui/react";
 import {
     ArrowPathIcon,
@@ -21,8 +20,8 @@ import {
     useRef,
     useState,
 } from "react";
-import AssignModal from "./Partials/AssignModal";
-import config from "./table-config";
+import AssignModal from "../Tickets/Partials/AssignModal";
+import config from "../Tickets/table-config";
 
 const statusIcon = (ticket) => {
     let color = "fill-gray-500";
@@ -76,11 +75,25 @@ const statusIcon = (ticket) => {
     );
 };
 
-const Index = ({ technicians, ...props }) => {
-    const { data: tickets, meta, queries, attributes } = props.tickets;
+const TicketsTable = ({ technicians, ...props }) => {
+    const {
+        data: tickets,
+        meta,
+        queries,
+        queriesBag,
+        attributes,
+    } = props.tickets;
 
     /* URL Parameters */
-    const [params, setParams] = useState(queries);
+    const [params, setParams] = useState(() => {
+        const newQueries = {};
+
+        Object.keys(queries).forEach((key) => {
+            newQueries[key.replace(queriesBag + ".", "")] = queries[key];
+        });
+
+        return newQueries;
+    });
 
     /* Prevent page overload */
     const oldQueries = useRef({
@@ -104,8 +117,12 @@ const Index = ({ technicians, ...props }) => {
             oldQueries.current.q = query.q;
             oldQueries.current.filter = query.filter;
 
+            Object.keys(query).forEach(function (key) {
+                query[queriesBag + "." + key] = query[key];
+            });
+
             /* Request data based on modified URL parameters */
-            router.get(route("ticket.index"), pickBy(query), {
+            router.post(route("dashboard"), pickBy(query), {
                 preserveState: true,
                 preserveScroll: true,
             });
@@ -141,7 +158,7 @@ const Index = ({ technicians, ...props }) => {
 
     return (
         <>
-            <div className="flex w-full flex-col gap-y-3 rounded-lg border border-gray-300 bg-gray-200 p-4 dark:border-gray-700 dark:bg-gray-800">
+            <div className="flex min-h-[300px] w-full flex-col gap-y-3 rounded-lg border border-gray-300 bg-gray-200 p-4 dark:border-gray-700 dark:bg-gray-800">
                 {/* Header */}
                 <div className="flex justify-between gap-y-2 max-md:flex-col">
                     <div className="flex gap-y-2 gap-x-5 max-md:flex-col">
@@ -339,6 +356,4 @@ const Index = ({ technicians, ...props }) => {
     );
 };
 
-Index.layout = (page) => <DashboardLayout children={page} title="Tickets" />;
-
-export default Index;
+export default TicketsTable;
