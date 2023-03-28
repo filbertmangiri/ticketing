@@ -50,10 +50,6 @@ const Show = ({
         });
     };
 
-    useEffect(() => {
-        console.log(ticket?.can?.create_progress);
-    }, []);
-
     /* Edit */
     const editModal = useModal(false);
 

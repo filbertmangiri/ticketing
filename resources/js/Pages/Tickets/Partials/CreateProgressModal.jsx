@@ -4,6 +4,7 @@ import TextArea from "@/Components/Form/TextArea";
 import Modal from "@/Components/Modal";
 import { Toast } from "@/Helpers/Toast";
 import { useForm } from "@inertiajs/react";
+import { useEffect } from "react";
 
 const CreateProgressModal = ({ isOpen, close, ticket }) => {
     const form = useForm({
@@ -30,7 +31,7 @@ const CreateProgressModal = ({ isOpen, close, ticket }) => {
 
     let progresses = [];
 
-    for (let i = ticket.progress + 10; i <= 100; i += 10) {
+    for (let i = parseInt(ticket.progress) + 10; i <= 100; i += 10) {
         progresses.push({ value: i, label: `${i}%` });
     }
 
