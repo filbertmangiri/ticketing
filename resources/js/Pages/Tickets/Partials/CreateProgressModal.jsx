@@ -30,7 +30,7 @@ const CreateProgressModal = ({ isOpen, close, ticket }) => {
 
     let progresses = [];
 
-    for (let i = 10; i <= 100; i += 10) {
+    for (let i = ticket.progress + 10; i <= 100; i += 10) {
         progresses.push({ value: i, label: `${i}%` });
     }
 
