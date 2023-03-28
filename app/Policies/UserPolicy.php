@@ -15,7 +15,7 @@ class UserPolicy
 	public function view(User $user, User $model): bool
 	{
 		// If the user is viewing their own profile, they can view it
-		if ($user->id === $model->id) {
+		if ($user->id == $model->id) {
 			return true;
 		}
 

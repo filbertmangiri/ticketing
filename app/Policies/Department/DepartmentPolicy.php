@@ -16,7 +16,7 @@ class DepartmentPolicy
 	public function view(User $user, Department $model): bool
 	{
 		// If the user is in a department, they can view their own department
-		if ($user->subDepartment?->department?->id === $model->id) {
+		if ($user->subDepartment?->department?->id == $model->id) {
 			return true;
 		}
 

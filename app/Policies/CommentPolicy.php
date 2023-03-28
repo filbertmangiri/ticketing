@@ -29,7 +29,7 @@ class CommentPolicy
 			return false;
 		}
 
-		if ($user->id === $comment->author_id)
+		if ($user->id == $comment->author_id)
 			return true;
 
 		return $user->can('update comment');
@@ -41,7 +41,7 @@ class CommentPolicy
 			return false;
 		}
 
-		if ($user->id === $comment->author_id)
+		if ($user->id == $comment->author_id)
 			return true;
 
 		return $user->can('delete comment');

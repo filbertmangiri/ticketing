@@ -40,12 +40,6 @@ const CreateProgressModal = ({ isOpen, close, ticket }) => {
             <Modal.Body className="flex flex-col gap-y-3">
                 <Input>
                     <Input.Label>Progress (percentage)</Input.Label>
-                    {/* <Input.Field
-                        type="number"
-                        name="value"
-                        value={form.data.value}
-                        onChange={inputHandler}
-                    /> */}
                     <Select
                         options={progresses.map((progress) => ({
                             value: progress.value,

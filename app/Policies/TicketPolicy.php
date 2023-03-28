@@ -23,11 +23,11 @@ class TicketPolicy
 
 	public function view(User $user, Ticket $ticket): bool
 	{
-		if ($user->id === $ticket->issuer?->id) {
+		if ($user->id == $ticket->issuer?->id) {
 			return true;
 		}
 
-		if ($user->id === $ticket->technician?->id) {
+		if ($user->id == $ticket->technician?->id) {
 			return true;
 		}
 
@@ -45,7 +45,7 @@ class TicketPolicy
 			return false;
 		}
 
-		if ($user->id === $ticket->issuer_id) {
+		if ($user->id == $ticket->issuer_id) {
 			return true;
 		}
 
@@ -78,7 +78,7 @@ class TicketPolicy
 			return false;
 		}
 
-		return $user->id === $ticket->issuer?->id && !$ticket->solved_at;
+		return $user->id == $ticket->issuer?->id && !$ticket->solved_at;
 	}
 
 	public function close(User $user, Ticket $ticket): bool
