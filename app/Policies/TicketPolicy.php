@@ -94,15 +94,13 @@ class TicketPolicy
 	public function createProgress(User $user, Ticket $ticket): bool
 	{
 		if ($ticket->closed_at) {
-			dump($ticket->closed_at);
-			dd('ticket closed');
 			return false;
 		}
 
-		dump('$ticket->user_id = ' . $user->id);
-		dump('$ticket->technician_id = ' . $ticket->technician_id);
+		dump('$ticket->user_id = ' . $user->id . ' ' . gettype($user->id));
+		dump('$ticket->technician_id = ' . $ticket->technician_id . ' ' . gettype($ticket->technician_id));
 		dd($user->id === $ticket->technician_id);
 
-		return $user->id === $ticket->technician_id;
+		return $user->id == $ticket->technician_id;
 	}
 }
