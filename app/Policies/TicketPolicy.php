@@ -97,10 +97,6 @@ class TicketPolicy
 			return false;
 		}
 
-		dump('$ticket->user_id = ' . $user->id . ' ' . gettype($user->id));
-		dump('$ticket->technician_id = ' . $ticket->technician_id . ' ' . gettype($ticket->technician_id));
-		dd($user->id === $ticket->technician_id);
-
 		return $user->id == $ticket->technician_id;
 	}
 }
