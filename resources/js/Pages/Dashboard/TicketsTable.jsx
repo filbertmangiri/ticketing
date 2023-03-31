@@ -203,7 +203,15 @@ const TicketsTable = ({ technicians, ...props }) => {
                                                 {statusIcon(ticket)}
                                             </td>
                                             <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-white">
-                                                {ticket.number}
+                                                <Link
+                                                    href={route(
+                                                        "ticket.show",
+                                                        ticket.number
+                                                    )}
+                                                    className="font-bold text-blue-600 underline dark:text-blue-400"
+                                                >
+                                                    {ticket.number}
+                                                </Link>
                                             </td>
                                             <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-white">
                                                 {ticket.closed_at
