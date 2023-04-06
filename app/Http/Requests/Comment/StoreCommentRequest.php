@@ -20,6 +20,8 @@ class StoreCommentRequest extends FormRequest
 			'ticket_id' => ['required', 'integer', Rule::exists(Ticket::class, 'id')],
 			'parent_id' => ['nullable', 'integer', Rule::exists(Comment::class, 'id')],
 			'body' => ['required', 'string', 'min:5', 'max:10000'],
+			'attachments' => ['nullable', 'array', 'max:5'],
+			'attachments.*' => ['required_with:attachments', 'nullable', 'file', 'max:512000', 'mimes:jpg,jpeg,png,webp,gif,svg,pdf,doc,docx,xls,xlsx,txt,zip,rar'],
 		];
 	}
 
@@ -29,6 +31,7 @@ class StoreCommentRequest extends FormRequest
 			'ticket_id' => 'ticket',
 			'parent_id' => 'parent comment',
 			'body' => 'comment',
+			'attachments.*' => 'attachment',
 		];
 	}
 }

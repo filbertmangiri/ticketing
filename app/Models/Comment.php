@@ -36,6 +36,11 @@ class Comment extends Model
 		return $this->belongsTo(Ticket::class);
 	}
 
+	public function attachments()
+	{
+		return $this->hasMany(CommentAttachment::class);
+	}
+
 	public static function boot()
 	{
 		parent::boot();

@@ -21,6 +21,7 @@ import CreateProgressModal from "./Partials/CreateProgressModal";
 import EditModal from "./Partials/EditModal";
 import ReopenModal from "./Partials/ReopenModal";
 import SolvedModal from "./Partials/SolvedModal";
+import { useDropzone } from "react-dropzone";
 
 const Show = ({
     technicians,
@@ -35,6 +36,7 @@ const Show = ({
     const commentForm = useForm({
         ticket_id: ticket.id,
         body: "",
+        attachments: [],
     });
 
     const commentSubmitHandler = (e) => {
@@ -49,6 +51,28 @@ const Show = ({
             },
         });
     };
+
+    const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
+
+    useEffect(() => {
+        commentForm.setData("attachments", [
+            ...commentForm.data.attachments,
+            ...acceptedFiles,
+        ]);
+    }, [acceptedFiles]);
+
+    const deleteAttachmentHandler = (index) => {
+        commentForm.setData(
+            "attachments",
+            commentForm.data.attachments.filter(function (_, arrIndex) {
+                return index !== arrIndex;
+            })
+        );
+    };
+
+    useEffect(() => {
+        console.log(commentForm.errors);
+    }, [commentForm.errors]);
 
     /* Edit */
     const editModal = useModal(false);
@@ -536,6 +560,71 @@ const Show = ({
                                                     }
                                                 />
                                             </TextArea>
+
+                                            <section className="container">
+                                                <div
+                                                    {...getRootProps({
+                                                        className:
+                                                            "dropzone relative cursor-pointer rounded-lg border border-dashed border-gray-500 transition-colors hover:border-blue-600 dark:hover:border-blue-400",
+                                                    })}
+                                                >
+                                                    <input
+                                                        {...getInputProps({
+                                                            className:
+                                                                "relative block h-full w-full cursor-pointer p-20 opacity-0",
+                                                        })}
+                                                    />
+                                                    <p className="m-auto p-10 text-center">
+                                                        Drag 'n' drop some files
+                                                        here, or click to select
+                                                        files
+                                                    </p>
+                                                </div>
+                                                <ul className="mt-4 flex w-full flex-1 flex-wrap gap-2">
+                                                    {commentForm.data
+                                                        .attachments?.length >
+                                                    0 ? (
+                                                        commentForm.data.attachments.map(
+                                                            (
+                                                                attachment,
+                                                                index
+                                                            ) => {
+                                                                const file = {
+                                                                    path: URL.createObjectURL(
+                                                                        attachment
+                                                                    ),
+                                                                    name: attachment.name,
+                                                                    size: attachment.size,
+                                                                    mime_type:
+                                                                        attachment.type,
+                                                                };
+
+                                                                return (
+                                                                    <AttachmentItem
+                                                                        key={`attachment-${index}`}
+                                                                        index={
+                                                                            index
+                                                                        }
+                                                                        attachment={
+                                                                            file
+                                                                        }
+                                                                        deleteHandler={
+                                                                            deleteAttachmentHandler
+                                                                        }
+                                                                    />
+                                                                );
+                                                            }
+                                                        )
+                                                    ) : (
+                                                        <li className="flex h-full w-full flex-col items-center justify-center text-center">
+                                                            <span className="text-small text-gray-500">
+                                                                No files
+                                                                selected
+                                                            </span>
+                                                        </li>
+                                                    )}
+                                                </ul>
+                                            </section>
 
                                             <div className="flex gap-x-2">
                                                 <button

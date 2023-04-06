@@ -24,7 +24,7 @@ const AttachmentItem = ({
                     isImage
                         ? "group text-transparent hover:text-white"
                         : "dark:bg-gray-700"
-                } focus:shadow-outline group relative h-full w-full rounded-md bg-gray-100 shadow-sm focus:outline-none`}
+                } focus:shadow-outline group relative h-full w-full rounded-md border border-gray-500 bg-gray-100 shadow-sm focus:outline-none dark:border-gray-500`}
             >
                 {isImage && (
                     <img

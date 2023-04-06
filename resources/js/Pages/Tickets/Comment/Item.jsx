@@ -1,3 +1,4 @@
+import AttachmentItem from "@/Components/AttachmentItem";
 import { auth } from "@/Helpers/Auth";
 import { can } from "@/Helpers/Permission";
 import { useState } from "react";
@@ -65,9 +66,29 @@ const CommentItem = ({
                     </div>
                 </div>
 
-                <p className="border-y border-gray-300 py-5 text-sm dark:border-gray-500">
-                    {comment.body}
-                </p>
+                <div className="flex flex-col">
+                    <p className="border-y border-gray-300 py-5 text-sm dark:border-gray-500">
+                        {comment.body}
+                    </p>
+
+                    {comment.attachments?.length > 0 && (
+                        <>
+                            <div className="mt-4 w-full whitespace-nowrap text-sm">
+                                Attachments :
+                            </div>
+
+                            <ul className="mt-2 flex w-full flex-1 flex-wrap gap-2">
+                                {comment.attachments.map((attachment) => (
+                                    <AttachmentItem
+                                        key={`attachment-${attachment.id}`}
+                                        attachment={attachment}
+                                        withDownload={true}
+                                    />
+                                ))}
+                            </ul>
+                        </>
+                    )}
+                </div>
 
                 <div className="flex justify-between text-xs">
                     <div>

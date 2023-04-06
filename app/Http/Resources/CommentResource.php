@@ -21,6 +21,8 @@ class CommentResource extends JsonResource
 			'author' => $this->author?->only('id', 'username', 'name') ?? $this->author_name,
 			'author_profile_picture' => $this->author?->getProfilePicture() ?? User::$profile_picture_default,
 
+			'attachments' => AttachmentResource::collection($this->attachments),
+
 			'childrens' => CommentResource::collection($this->childrens),
 
 			'created_at' => $this->created_at?->format('l, d F Y - H:i:s'),
