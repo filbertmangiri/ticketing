@@ -1,15 +1,18 @@
+import AttachmentItem from "@/Components/AttachmentItem";
 import Input from "@/Components/Form/Input";
 import TextArea from "@/Components/Form/TextArea";
 import Modal from "@/Components/Modal";
 import { Toast } from "@/Helpers/Toast";
 import { useForm } from "@inertiajs/react";
 import { useEffect } from "react";
+import { useDropzone } from "react-dropzone";
 
 const ReplyModal = ({ isOpen, close, ticket, comment }) => {
     const form = useForm({
         ticket_id: ticket?.id,
         parent_id: comment?.id,
         body: "",
+        attachments: [],
     });
 
     useEffect(() => {
@@ -23,12 +26,12 @@ const ReplyModal = ({ isOpen, close, ticket, comment }) => {
         });
     }, [comment]);
 
-    useEffect(() => {
+    /* useEffect(() => {
         if (!isOpen) {
             form.reset();
             form.clearErrors();
         }
-    }, [isOpen]);
+    }, [isOpen]); */
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -43,6 +46,24 @@ const ReplyModal = ({ isOpen, close, ticket, comment }) => {
         });
     };
 
+    const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
+
+    useEffect(() => {
+        form.setData("attachments", [
+            ...form.data.attachments,
+            ...acceptedFiles,
+        ]);
+    }, [acceptedFiles]);
+
+    const deleteAttachmentHandler = (index) => {
+        form.setData(
+            "attachments",
+            form.data.attachments.filter(function (_, arrIndex) {
+                return index !== arrIndex;
+            })
+        );
+    };
+
     return (
         <Modal title="Reply a comment" isOpen={isOpen} close={close}>
             <Modal.Body className="flex flex-col gap-y-3">
@@ -55,6 +76,53 @@ const ReplyModal = ({ isOpen, close, ticket, comment }) => {
                     />
                     <Input.Errors errors={form.errors.body} />
                 </TextArea>
+
+                <section className="container">
+                    <div
+                        {...getRootProps({
+                            className:
+                                "dropzone relative cursor-pointer rounded-lg border border-dashed border-gray-500 transition-colors hover:border-blue-600 dark:hover:border-blue-400",
+                        })}
+                    >
+                        <input
+                            {...getInputProps({
+                                className:
+                                    "relative block h-full w-full cursor-pointer p-20 opacity-0",
+                            })}
+                        />
+                        <p className="m-auto p-10 text-center">
+                            Drag 'n' drop some files here, or click to select
+                            files
+                        </p>
+                    </div>
+                    <ul className="mt-4 flex w-full flex-1 flex-wrap gap-2">
+                        {form.data.attachments?.length > 0 ? (
+                            form.data.attachments.map((attachment, index) => {
+                                const file = {
+                                    path: URL.createObjectURL(attachment),
+                                    name: attachment.name,
+                                    size: attachment.size,
+                                    mime_type: attachment.type,
+                                };
+
+                                return (
+                                    <AttachmentItem
+                                        key={`attachment-${index}`}
+                                        index={index}
+                                        attachment={file}
+                                        deleteHandler={deleteAttachmentHandler}
+                                    />
+                                );
+                            })
+                        ) : (
+                            <li className="flex h-full w-full flex-col items-center justify-center text-center">
+                                <span className="text-small text-gray-500">
+                                    No files selected
+                                </span>
+                            </li>
+                        )}
+                    </ul>
+                </section>
             </Modal.Body>
 
             <Modal.Footer className="flex gap-x-2">

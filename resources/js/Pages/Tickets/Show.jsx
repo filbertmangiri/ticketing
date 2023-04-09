@@ -70,10 +70,6 @@ const Show = ({
         );
     };
 
-    useEffect(() => {
-        console.log(commentForm.errors);
-    }, [commentForm.errors]);
-
     /* Edit */
     const editModal = useModal(false);
 
