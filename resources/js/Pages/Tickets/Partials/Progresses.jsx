@@ -65,7 +65,7 @@ function Progresses({ items }) {
                                             />
                                         </span>
                                     </div>
-                                    <div className="flex w-full flex-col gap-y-2">
+                                    <div className="flex w-full flex-col">
                                         <div className="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                                             <div>
                                                 <p className="text-sm text-gray-600 dark:text-gray-400">
