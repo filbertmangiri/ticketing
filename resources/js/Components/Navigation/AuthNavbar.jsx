@@ -1,9 +1,6 @@
-import { Menu, Transition } from "@headlessui/react";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import { Link, useForm, usePage } from "@inertiajs/react";
-import { Fragment } from "react";
 import ProfileDropdown from "../ProfileDropdown";
-import ThemeToggle from "../ThemeToggle";
 
 const AuthNavbar = ({
     showSidebar,
@@ -11,16 +8,8 @@ const AuthNavbar = ({
     sidebarToggleRef,
     ...props
 }) => {
-    const { app } = usePage().props;
-
     const toggleSidebar = () => {
         setShowSidebar(!showSidebar);
-    };
-
-    const { post } = useForm();
-
-    const logoutHandler = () => {
-        post(route("logout"));
     };
 
     return (
@@ -28,7 +17,7 @@ const AuthNavbar = ({
             {...props}
             className="max-md:px-responsive flex items-center justify-between border-b border-gray-300 bg-gray-200 py-4 dark:border-gray-700 dark:bg-gray-800"
         >
-            {/* Left Section */}
+            {/* Left */}
             <div
                 className={`${
                     showSidebar ? "md:pl-7" : "md:pl-responsive"
@@ -45,9 +34,6 @@ const AuthNavbar = ({
                         alt="Intecs Logo"
                         className="hidden h-14 dark:block"
                     />
-                    {/* <span className="whitespace-nowrap text-2xl font-semibold">
-                        {app.name}
-                    </span> */}
                 </Link>
 
                 <button
@@ -60,7 +46,7 @@ const AuthNavbar = ({
                 </button>
             </div>
 
-            {/* Right Section */}
+            {/* Right */}
             <div
                 className={`${
                     showSidebar ? "md:pr-7" : "md:pr-responsive"

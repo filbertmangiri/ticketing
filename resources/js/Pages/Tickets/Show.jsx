@@ -22,6 +22,7 @@ import EditModal from "./Partials/EditModal";
 import ReopenModal from "./Partials/ReopenModal";
 import SolvedModal from "./Partials/SolvedModal";
 import { useDropzone } from "react-dropzone";
+import Progresses from "./Partials/Progresses";
 
 const Show = ({
     technicians,
@@ -764,26 +765,7 @@ const Show = ({
                     as="ul"
                     className="flex h-fit min-h-full flex-col gap-y-3 rounded-lg bg-gray-200 p-5 dark:bg-gray-800"
                 >
-                    {ticket.progresses?.length > 0 &&
-                        ticket.progresses?.map((progress, index) => (
-                            <li key={index} className="border-l-4 pl-16">
-                                <div className="flex h-fit min-h-[100px] flex-col gap-y-2 rounded-lg bg-blue-300 p-3 text-sm dark:bg-gray-700">
-                                    <div className="flex justify-between">
-                                        <span className="font-bold">
-                                            {[
-                                                "created",
-                                                "solved",
-                                                "closed",
-                                            ].includes(progress.value)
-                                                ? `Ticket ${progress.value}`
-                                                : `Progress updated to ${progress.value}%`}
-                                        </span>
-                                        <span>{progress.created_at}</span>
-                                    </div>
-                                    <div>{progress.description}</div>
-                                </div>
-                            </li>
-                        ))}
+                    <Progresses items={ticket.progresses} />
                 </Tab.Panel>
             </Tab.Panels>
         </Tab.Group>

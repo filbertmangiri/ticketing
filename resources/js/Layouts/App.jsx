@@ -21,7 +21,7 @@ const AppLayout = ({ title, children }) => {
 
         const isDark =
             localStorage.theme === "dark" ||
-            (!("theme" in localStorage) &&
+            ((!("theme" in localStorage) || localStorage.theme === "system") &&
                 window.matchMedia("(prefers-color-scheme: dark)").matches);
 
         applyTheme(isDark);
