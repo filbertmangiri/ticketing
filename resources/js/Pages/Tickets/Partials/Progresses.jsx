@@ -1,7 +1,8 @@
 import {
-    CheckIcon,
-    HandThumbUpIcon,
-    UserIcon,
+    CheckBadgeIcon,
+    ClockIcon,
+    LockClosedIcon,
+    PencilSquareIcon,
 } from "@heroicons/react/20/solid";
 import { twMerge } from "tailwind-merge";
 
@@ -9,26 +10,26 @@ const getProgressIcon = (progress) => {
     switch (progress.value) {
         case "created":
             return {
-                icon: UserIcon,
-                background: "bg-gray-400",
+                icon: PencilSquareIcon,
+                background: "bg-blue-500",
             };
 
         case "solved":
             return {
-                icon: CheckIcon,
+                icon: CheckBadgeIcon,
                 background: "bg-green-500",
             };
 
         case "closed":
             return {
-                icon: CheckIcon,
-                background: "bg-green-500",
+                icon: LockClosedIcon,
+                background: "bg-red-500",
             };
 
         default:
             return {
-                icon: HandThumbUpIcon,
-                background: "bg-blue-500",
+                icon: ClockIcon,
+                background: "bg-yellow-500",
             };
     }
 };
@@ -55,7 +56,7 @@ function Progresses({ items }) {
                                             className={twMerge(
                                                 getProgressIcon(item)
                                                     .background,
-                                                "flex h-8 w-8 items-center justify-center rounded-full ring-8 ring-gray-200 dark:ring-gray-800"
+                                                "flex h-10 w-10 items-center justify-center rounded-full ring-8 ring-gray-200 dark:ring-gray-800"
                                             )}
                                         >
                                             <Icon
