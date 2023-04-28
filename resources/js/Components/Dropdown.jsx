@@ -28,7 +28,7 @@ const DropdownItems = ({ className, isCategories, children, ...props }) => {
             <Menu.Items
                 {...props}
                 className={twMerge(
-                    "absolute right-0 mt-2 flex flex-col rounded-xl bg-white text-sm shadow-md ring-1 ring-black ring-opacity-10 focus:outline-none dark:bg-slate-900 dark:ring-white dark:ring-opacity-10",
+                    "absolute mt-2 flex flex-col rounded-xl bg-white text-sm shadow-md ring-1 ring-black ring-opacity-10 focus:outline-none dark:bg-slate-900 dark:ring-white dark:ring-opacity-10",
                     isCategories
                         ? "gap-y-1 divide-y divide-slate-300 dark:divide-slate-700"
                         : "gap-y-1.5 p-2",
@@ -85,7 +85,7 @@ const DropdownItem = ({
                     onClick?.(event);
                 }}
                 className={twMerge(
-                    "flex h-9 items-center gap-x-2 rounded-lg px-3 py-1.5 text-start",
+                    "flex h-9 items-center gap-x-2 whitespace-nowrap rounded-lg px-3 py-1.5 text-start",
                     props.disabled
                         ? "cursor-default text-slate-400 dark:text-slate-600"
                         : "hover:bg-indigo-600 hover:text-white dark:hover:text-white",

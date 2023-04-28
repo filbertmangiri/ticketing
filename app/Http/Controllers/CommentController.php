@@ -45,6 +45,8 @@ class CommentController extends Controller
 				'status' => Status::OnProgress,
 			]);
 		}
+
+		$ticket->touch();
 	}
 
 	public function update(UpdateCommentRequest $request, Comment $comment)
@@ -54,6 +56,10 @@ class CommentController extends Controller
 		$validated = $request->validated();
 
 		$comment->update($validated);
+
+		$ticket = Ticket::findOrFail($validated['ticket_id']);
+
+		$ticket->touch();
 	}
 
 	public function destroy(Comment $comment)
@@ -61,5 +67,7 @@ class CommentController extends Controller
 		$this->authorize('delete', [$comment, $comment->ticket]);
 
 		$comment->delete();
+
+		$comment->ticket->touch();
 	}
 }

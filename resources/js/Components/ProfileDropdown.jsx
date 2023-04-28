@@ -33,7 +33,7 @@ const ProfileDropdown = ({ positionClass, ...props }) => {
                 </div>
             </Dropdown.Button>
 
-            <Dropdown.Categories className="z-10">
+            <Dropdown.Categories className="right-0 z-10">
                 <Dropdown.Category label="profile">
                     <Dropdown.Item
                         as={Link}

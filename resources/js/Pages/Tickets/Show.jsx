@@ -749,6 +749,7 @@ const Show = ({
                             <EditCommentModal
                                 isOpen={editCommentModal.isOpen}
                                 close={editCommentModal.close}
+                                ticket={ticket}
                                 comment={selectedComment}
                             />
 

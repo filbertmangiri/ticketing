@@ -5,8 +5,9 @@ import { Toast } from "@/Helpers/Toast";
 import { useForm } from "@inertiajs/react";
 import { useEffect } from "react";
 
-const EditModal = ({ isOpen, close, comment }) => {
+const EditModal = ({ isOpen, close, ticket, comment }) => {
     const form = useForm({
+        ticket_id: ticket?.id,
         body: "",
     });
 

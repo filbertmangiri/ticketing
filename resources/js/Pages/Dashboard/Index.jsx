@@ -2,7 +2,6 @@ import { can } from "@/Helpers/Permission";
 import DashboardLayout from "@/Layouts/Dashboard";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
-import TicketList from "../Tickets/Index";
 import BooksTable from "./BooksTable";
 import TicketsTable from "./TicketsTable";
 
