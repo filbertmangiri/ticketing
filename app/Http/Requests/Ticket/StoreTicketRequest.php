@@ -37,7 +37,7 @@ class StoreTicketRequest extends FormRequest
 			'location_id' => ['required', 'integer', Rule::exists(Location::class, 'id')],
 			'priority_id' => ['required', 'integer', Rule::exists(Priority::class, 'id')],
 			'attachments' => ['nullable', 'array', 'max:5'],
-			'attachments.*' => ['required_with:attachments', 'nullable', 'file', 'max:512000', 'mimes:jpg,jpeg,png,webp,gif,svg,pdf,doc,docx,xls,xlsx,txt,zip,rar'],
+			'attachments.*' => ['required_with:attachments', 'nullable', 'file', 'max:512000', 'mimes:jpg,jpeg,png,webp,gif,svg,pdf,doc,docx,xls,xlsx,csv,txt,zip,rar,mov,mp4,avi,mp3,wav,ogg,flac'],
 		];
 	}
 
@@ -51,6 +51,13 @@ class StoreTicketRequest extends FormRequest
 			'location_id' => 'location',
 			'priority_id' => 'priority',
 			'attachments.*' => 'attachment',
+		];
+	}
+
+	public function messages()
+	{
+		return [
+			'attachments.*.mimes' => 'The :attribute file type is not supported.',
 		];
 	}
 }

@@ -111,6 +111,9 @@ const ReplyModal = ({ isOpen, close, ticket, comment }) => {
                                         index={index}
                                         attachment={file}
                                         deleteHandler={deleteAttachmentHandler}
+                                        error={
+                                            form.errors["attachments." + index]
+                                        }
                                     />
                                 );
                             })

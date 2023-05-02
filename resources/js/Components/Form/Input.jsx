@@ -66,12 +66,15 @@ Input.Field.Password = ({ id, ...props }) => {
     );
 };
 
-Input.Errors = ({ errors, ...props }) => {
+Input.Errors = ({ errors, className, ...props }) => {
     return (
         errors && (
             <p
                 {...props}
-                className="mt-2 text-sm text-red-600 dark:text-red-400"
+                className={twMerge(
+                    "mt-2 text-sm text-red-600 dark:text-red-400",
+                    className
+                )}
             >
                 {errors}
             </p>

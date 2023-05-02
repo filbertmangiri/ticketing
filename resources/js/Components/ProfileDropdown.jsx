@@ -7,6 +7,7 @@ import { Link, useForm } from "@inertiajs/react";
 import Dropdown from "./Dropdown";
 import useTheme from "@/Hooks/useTheme";
 import { auth } from "@/Helpers/Auth";
+import { twMerge } from "tailwind-merge";
 
 const ProfileDropdown = ({ positionClass, ...props }) => {
     const { theme, setThemeNext } = useTheme();
@@ -33,7 +34,9 @@ const ProfileDropdown = ({ positionClass, ...props }) => {
                 </div>
             </Dropdown.Button>
 
-            <Dropdown.Categories className="right-0 z-10">
+            <Dropdown.Categories
+                className={twMerge("right-0 z-10", positionClass)}
+            >
                 <Dropdown.Category label="profile">
                     <Dropdown.Item
                         as={Link}

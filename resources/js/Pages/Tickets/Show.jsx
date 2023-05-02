@@ -608,6 +608,13 @@ const Show = ({
                                                                         deleteHandler={
                                                                             deleteAttachmentHandler
                                                                         }
+                                                                        error={
+                                                                            commentForm
+                                                                                .errors[
+                                                                                "attachments." +
+                                                                                    index
+                                                                            ]
+                                                                        }
                                                                     />
                                                                 );
                                                             }

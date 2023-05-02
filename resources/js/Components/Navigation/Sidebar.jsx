@@ -43,8 +43,8 @@ const Sidebar = ({
                 </ul>
 
                 {/* Footer */}
-                <div className="md:hidden">
-                    <ProfileDropdown positionClass="bottom-0 right-0 ml-10" />
+                <div className="px-3 py-2 md:hidden">
+                    <ProfileDropdown positionClass="-top-72 left-0" />
                 </div>
             </div>
         </aside>

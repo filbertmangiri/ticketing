@@ -195,6 +195,9 @@ const Create = ({ categories, locations, priorities, ...props }) => {
                                         index={index}
                                         attachment={file}
                                         deleteHandler={deleteAttachmentHandler}
+                                        error={
+                                            form.errors["attachments." + index]
+                                        }
                                     />
                                 );
                             })

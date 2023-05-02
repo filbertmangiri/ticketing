@@ -21,7 +21,7 @@ class StoreCommentRequest extends FormRequest
 			'parent_id' => ['nullable', 'integer', Rule::exists(Comment::class, 'id')],
 			'body' => ['required', 'string', 'min:5', 'max:10000'],
 			'attachments' => ['nullable', 'array', 'max:5'],
-			'attachments.*' => ['required_with:attachments', 'nullable', 'file', 'max:512000', 'mimes:jpg,jpeg,png,webp,gif,svg,pdf,doc,docx,xls,xlsx,txt,zip,rar'],
+			'attachments.*' => ['required_with:attachments', 'nullable', 'file', 'max:512000', 'mimes:jpg,jpeg,png,webp,gif,svg,pdf,doc,docx,xls,xlsx,csv,txt,zip,rar,mov,mp4,avi,mp3,wav,ogg,flac'],
 		];
 	}
 
@@ -32,6 +32,13 @@ class StoreCommentRequest extends FormRequest
 			'parent_id' => 'parent comment',
 			'body' => 'comment',
 			'attachments.*' => 'attachment',
+		];
+	}
+
+	public function messages()
+	{
+		return [
+			'attachments.*.mimes' => 'The :attribute file type is not supported.',
 		];
 	}
 }
