@@ -1,6 +1,6 @@
 import AttachmentItem from "@/Components/AttachmentItem";
+import Editor from "@/Components/Form/Editor";
 import Input from "@/Components/Form/Input";
-import TextArea from "@/Components/Form/TextArea";
 import { can } from "@/Helpers/Permission";
 import { Toast } from "@/Helpers/Toast";
 import useModal from "@/Hooks/useModal";
@@ -10,6 +10,7 @@ import { CheckBadgeIcon } from "@heroicons/react/24/outline";
 import { Link, useForm } from "@inertiajs/react";
 import "ckeditor-tailwind-reset/ckeditor-tailwind-reset.css";
 import { useEffect, useState } from "react";
+import { useDropzone } from "react-dropzone";
 import { twMerge } from "tailwind-merge";
 import DeleteCommentModal from "./Comment/DeleteModal";
 import EditCommentModal from "./Comment/EditModal";
@@ -19,10 +20,9 @@ import AssignModal from "./Partials/AssignModal";
 import CloseModal from "./Partials/CloseModal";
 import CreateProgressModal from "./Partials/CreateProgressModal";
 import EditModal from "./Partials/EditModal";
+import Progresses from "./Partials/Progresses";
 import ReopenModal from "./Partials/ReopenModal";
 import SolvedModal from "./Partials/SolvedModal";
-import { useDropzone } from "react-dropzone";
-import Progresses from "./Partials/Progresses";
 
 const Show = ({
     technicians,
@@ -537,8 +537,8 @@ const Show = ({
                                             onSubmit={commentSubmitHandler}
                                             className="flex flex-col gap-y-3"
                                         >
-                                            <TextArea>
-                                                <TextArea.Field
+                                            <div>
+                                                {/* <TextArea.Field
                                                     className="bg-gray-100 dark:bg-gray-800"
                                                     placeholder="Add your comment . . ."
                                                     value={
@@ -550,13 +550,25 @@ const Show = ({
                                                             e.target.value
                                                         )
                                                     }
+                                                /> */}
+
+                                                <Editor
+                                                    data={commentForm.data.body}
+                                                    setData={
+                                                        commentForm.setData
+                                                    }
+                                                    config={{
+                                                        placeholder:
+                                                            "Add your comment . . .",
+                                                    }}
                                                 />
+
                                                 <Input.Errors
                                                     errors={
                                                         commentForm.errors.body
                                                     }
                                                 />
-                                            </TextArea>
+                                            </div>
 
                                             <section className="container">
                                                 <div

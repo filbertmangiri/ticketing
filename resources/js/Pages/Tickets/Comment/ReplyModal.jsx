@@ -1,6 +1,6 @@
 import AttachmentItem from "@/Components/AttachmentItem";
+import Editor from "@/Components/Form/Editor";
 import Input from "@/Components/Form/Input";
-import TextArea from "@/Components/Form/TextArea";
 import Modal from "@/Components/Modal";
 import { Toast } from "@/Helpers/Toast";
 import { useForm } from "@inertiajs/react";
@@ -67,15 +67,24 @@ const ReplyModal = ({ isOpen, close, ticket, comment }) => {
     return (
         <Modal title="Reply a comment" isOpen={isOpen} close={close}>
             <Modal.Body className="flex flex-col gap-y-3">
-                <TextArea>
-                    <TextArea.Field
+                <div>
+                    {/* <TextArea.Field
                         className="bg-gray-100 dark:bg-gray-800"
                         placeholder="Add your comment . . ."
                         value={form.data.body}
                         onChange={(e) => form.setData("body", e.target.value)}
+                    /> */}
+
+                    <Editor
+                        data={form.data.body}
+                        setData={form.setData}
+                        config={{
+                            placeholder: "Add your comment . . .",
+                        }}
                     />
+
                     <Input.Errors errors={form.errors.body} />
-                </TextArea>
+                </div>
 
                 <section className="container">
                     <div

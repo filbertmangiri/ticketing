@@ -67,9 +67,10 @@ const CommentItem = ({
                 </div>
 
                 <div className="flex flex-col">
-                    <p className="border-y border-gray-300 py-5 text-sm dark:border-gray-500">
-                        {comment.body}
-                    </p>
+                    <p
+                        className="ck-content border-y border-gray-300 py-5 text-sm dark:border-gray-500"
+                        dangerouslySetInnerHTML={{ __html: comment.body }}
+                    />
 
                     {comment.attachments?.length > 0 && (
                         <>

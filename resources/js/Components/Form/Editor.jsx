@@ -11,6 +11,7 @@ const Editor = ({ data, setData, ...props }) => {
                 onChange={(_, editor) => {
                     setData("body", editor.getData());
                 }}
+                {...props}
             />
         </div>
     );
