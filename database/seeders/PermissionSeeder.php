@@ -22,6 +22,7 @@ class PermissionSeeder extends Seeder
 		Permission::create(['name' => 'view assigned ticket']);
 		Permission::create(['name' => 'support assigned ticket']);
 		Permission::create(['name' => 'action closed ticket']);
+		Permission::create(['name' => 'reset default password user']);
 
 		/* Roles */
 		$super_admin = Role::firstOrCreate(['name' => 'admin']);
@@ -31,6 +32,7 @@ class PermissionSeeder extends Seeder
 			'assign ticket',
 			'close ticket',
 			'action closed ticket',
+			'reset default password user',
 		]);
 
 		$technician = Role::firstOrCreate(['name' => 'technician']);

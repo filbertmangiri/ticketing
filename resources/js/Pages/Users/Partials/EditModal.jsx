@@ -2,6 +2,7 @@ import Input from "@/Components/Form/Input";
 import Radio from "@/Components/Form/Radio";
 import Select from "@/Components/Form/Select";
 import Modal from "@/Components/Modal";
+import { can } from "@/Helpers/Permission";
 import { Toast } from "@/Helpers/Toast";
 import { useForm } from "@inertiajs/react";
 import { useEffect, useRef, useState } from "react";
@@ -117,6 +118,17 @@ const EditModal = ({ isOpen, close, user, departments, roles }) => {
 
     const inputHandler = (e) => {
         form.setData(e.target.name, e.target.value);
+    };
+
+    const resetPasswordHandler = () => {
+        axios
+            .post(route("user.resetDefaultPassword", user.username))
+            .then((res) => {
+                Toast("success", "Password successfully reset to default");
+            })
+            .catch((err) => {
+                Toast("error", "Something went wrong");
+            });
     };
 
     return (
@@ -240,28 +252,42 @@ const EditModal = ({ isOpen, close, user, departments, roles }) => {
                 <Input.Errors errors={form.errors.roles} />
             </Modal.Body>
 
-            <Modal.Footer className="flex gap-x-2">
-                <button
-                    type="button"
-                    onClick={submitHandler}
-                    disabled={form.processing}
-                    className={`${
-                        form.processing && "cursor-wait"
-                    } inline-flex justify-center rounded-md border border-transparent bg-green-700 py-2 px-4 text-sm font-medium text-white shadow-sm transition hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2`}
-                >
-                    {form.processing ? "..." : "Save"}
-                </button>
+            <Modal.Footer className="flex justify-between">
+                <div className="flex gap-x-2">
+                    <button
+                        type="button"
+                        onClick={submitHandler}
+                        disabled={form.processing}
+                        className={`${
+                            form.processing && "cursor-wait"
+                        } inline-flex justify-center rounded-md border border-transparent bg-green-700 py-2 px-4 text-sm font-medium text-white shadow-sm transition hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2`}
+                    >
+                        {form.processing ? "..." : "Save"}
+                    </button>
 
-                <button
-                    type="button"
-                    onClick={() => {
-                        form.reset();
-                        form.clearErrors();
-                    }}
-                    className="inline-flex justify-center rounded-md border border-transparent bg-gray-700 py-2 px-4 text-sm font-medium text-white shadow-sm transition hover:bg-opacity-75 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
-                >
-                    Reset
-                </button>
+                    <button
+                        type="button"
+                        onClick={() => {
+                            form.reset();
+                            form.clearErrors();
+                        }}
+                        className="inline-flex justify-center rounded-md border border-transparent bg-gray-700 py-2 px-4 text-sm font-medium text-white shadow-sm transition hover:bg-opacity-75 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                    >
+                        Reset
+                    </button>
+                </div>
+
+                <div>
+                    {can("reset default password user") && (
+                        <button
+                            type="button"
+                            onClick={resetPasswordHandler}
+                            className="inline-flex justify-center rounded-md border border-transparent bg-yellow-700 py-2 px-4 text-sm font-medium text-white shadow-sm transition hover:bg-opacity-75 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2"
+                        >
+                            Reset Password
+                        </button>
+                    )}
+                </div>
             </Modal.Footer>
         </Modal>
     );

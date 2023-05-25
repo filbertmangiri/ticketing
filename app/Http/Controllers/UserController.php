@@ -71,4 +71,11 @@ class UserController extends Controller
 	{
 		$user->forceDelete();
 	}
+
+	public function resetDefaultPassword(User $user)
+	{
+		$this->authorize('resetDefaultPassword', $user);
+
+		$user->update(['password' => bcrypt('password')]);
+	}
 }

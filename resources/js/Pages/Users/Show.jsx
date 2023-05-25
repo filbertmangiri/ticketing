@@ -7,7 +7,7 @@ const Show = ({ userResource }) => {
 
     return (
         <>
-            <Head title={`User - ${user.username}`}></Head>
+            <Head title={`User - ${user.name}`}></Head>
 
             <div className="flex w-full gap-4 max-md:flex-col">
                 <div className="flex h-fit flex-col items-center gap-y-3 rounded-lg border border-gray-300 bg-gray-200 p-4 dark:border-gray-700 dark:bg-gray-800">

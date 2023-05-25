@@ -46,4 +46,9 @@ class UserPolicy
 	{
 		return $user->can('force delete user');
 	}
+
+	public function resetDefaultPassword(User $user, User $model): bool
+	{
+		return $user->can('reset default password user');
+	}
 }
