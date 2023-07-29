@@ -1,51 +1,19 @@
 import AttachmentItem from "@/Components/AttachmentItem";
 import Editor from "@/Components/Form/Editor";
 import Input from "@/Components/Form/Input";
-import Modal from "@/Components/Modal";
-import { Toast } from "@/Helpers/Toast";
+import Select from "@/Components/Form/Select";
+import DashboardLayout from "@/Layouts/Dashboard";
 import { useForm } from "@inertiajs/react";
 import { useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 
-const ReplyModal = ({ isOpen, close, ticket, comment }) => {
+const Create = ({ technicians, ...props }) => {
     const form = useForm({
-        ticket_id: ticket?.id,
-        parent_id: comment?.id,
+        title: "",
         body: "",
+        technician: null,
         attachments: [],
     });
-
-    useEffect(() => {
-        form.setData({
-            ...form.data,
-            parent_id: comment?.id,
-        });
-
-        form.setDefaults({
-            parent_id: comment?.id,
-        });
-    }, [comment]);
-
-    /* useEffect(() => {
-        if (!isOpen) {
-            form.reset();
-            form.clearErrors();
-        }
-    }, [isOpen]); */
-
-    const submitHandler = (e) => {
-        e.preventDefault();
-
-        form.post(route("comment.store"), {
-            preserveScroll: true,
-            onSuccess: () => {
-                close();
-                form.reset();
-                commentForm.setData("attachments", []);
-                Toast("success", "Comment successfully added");
-            },
-        });
-    };
 
     const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
 
@@ -55,6 +23,22 @@ const ReplyModal = ({ isOpen, close, ticket, comment }) => {
             ...acceptedFiles,
         ]);
     }, [acceptedFiles]);
+
+    const submitHandler = async (e) => {
+        e.preventDefault();
+
+        form.post(route("task.store"), {
+            preserveScroll: true,
+            onSuccess: () => {
+                close();
+                form.reset();
+            },
+        });
+    };
+
+    const inputHandler = (e) => {
+        form.setData(e.target.name, e.target.value);
+    };
 
     const deleteAttachmentHandler = (index) => {
         form.setData(
@@ -66,28 +50,43 @@ const ReplyModal = ({ isOpen, close, ticket, comment }) => {
     };
 
     return (
-        <Modal title="Reply a comment" isOpen={isOpen} close={close}>
-            <Modal.Body className="flex flex-col gap-y-3">
-                <div>
-                    {/* <TextArea.Field
-                        className="bg-gray-100 dark:bg-gray-800"
-                        placeholder="Add your comment . . ."
-                        value={form.data.body}
-                        onChange={(e) => form.setData("body", e.target.value)}
-                    /> */}
-
-                    <Editor
-                        data={form.data.body}
-                        setData={form.setData}
-                        config={{
-                            placeholder: "Add your comment . . .",
+        <div className="flex h-fit min-h-full w-full flex-col justify-between gap-y-6 rounded-lg border border-gray-300 bg-gray-200 p-4 dark:border-gray-700 dark:bg-gray-800">
+            <div className="flex flex-col gap-y-6">
+                <div className="w-full">
+                    <Input.Label>Technician</Input.Label>
+                    <Select
+                        options={technicians.map((technician) => ({
+                            value: technician.id,
+                            label: technician.name,
+                        }))}
+                        value={form.data.technician}
+                        onChange={(value) => {
+                            form.setData("technician", value);
                         }}
+                        isSearchable={true}
+                        menuAbsolute={true}
                     />
+                    <Input.Errors errors={form.errors.technician_id} />
+                </div>
 
+                <Input className="w-full">
+                    <Input.Label>Subject</Input.Label>
+                    <Input.Field
+                        name="title"
+                        value={form.data.title}
+                        onChange={inputHandler}
+                    />
+                    <Input.Errors errors={form.errors.title} />
+                </Input>
+
+                <div>
+                    <Input.Label>Description</Input.Label>
+                    <Editor data={form.data.body} setData={form.setData} />
                     <Input.Errors errors={form.errors.body} />
                 </div>
 
                 <section className="container">
+                    <Input.Label>Attachments</Input.Label>
                     <div
                         {...getRootProps({
                             className:
@@ -129,6 +128,11 @@ const ReplyModal = ({ isOpen, close, ticket, comment }) => {
                             })
                         ) : (
                             <li className="flex h-full w-full flex-col items-center justify-center text-center">
+                                <img
+                                    className="mx-auto w-32"
+                                    src="https://user-images.githubusercontent.com/507615/54591670-ac0a0180-4a65-11e9-846c-e55ffce0fe7b.png"
+                                    alt="no data"
+                                />
                                 <span className="text-small text-gray-500">
                                     No files selected
                                 </span>
@@ -136,16 +140,16 @@ const ReplyModal = ({ isOpen, close, ticket, comment }) => {
                         )}
                     </ul>
                 </section>
-            </Modal.Body>
+            </div>
 
-            <Modal.Footer className="flex gap-x-2">
+            <div className="mt-10 flex gap-2 max-sm:flex-col">
                 <button
                     type="button"
                     onClick={submitHandler}
                     disabled={form.processing}
                     className={`${
                         form.processing && "cursor-wait"
-                    } inline-flex justify-center rounded-md border border-transparent bg-green-700 py-2 px-4 text-sm font-medium text-white shadow-sm transition hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2`}
+                    } inline-flex justify-center rounded-md border border-transparent bg-green-700 py-2 px-4 text-sm font-medium text-white shadow-sm transition hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:w-fit`}
                 >
                     {form.processing ? "..." : "Create"}
                 </button>
@@ -156,13 +160,17 @@ const ReplyModal = ({ isOpen, close, ticket, comment }) => {
                         form.reset();
                         form.clearErrors();
                     }}
-                    className="inline-flex justify-center rounded-md border border-transparent bg-gray-700 py-2 px-4 text-sm font-medium text-white shadow-sm transition hover:bg-opacity-75 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                    className="inline-flex justify-center rounded-md border border-transparent bg-gray-700 py-2 px-4 text-sm font-medium text-white shadow-sm transition hover:bg-opacity-75 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 sm:w-fit"
                 >
                     Clear
                 </button>
-            </Modal.Footer>
-        </Modal>
+            </div>
+        </div>
     );
 };
 
-export default ReplyModal;
+Create.layout = (page) => (
+    <DashboardLayout children={page} title="Create Task" />
+);
+
+export default Create;

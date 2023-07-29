@@ -23,6 +23,10 @@ class TicketPolicy
 
 	public function view(User $user, Ticket $ticket): bool
 	{
+		if ($user->can('view any ticket')) {
+			return true;
+		}
+
 		if ($user->id == $ticket->issuer?->id) {
 			return true;
 		}
@@ -31,7 +35,7 @@ class TicketPolicy
 			return true;
 		}
 
-		return $user->can('view ticket');
+		return false;
 	}
 
 	public function create(User $user): bool

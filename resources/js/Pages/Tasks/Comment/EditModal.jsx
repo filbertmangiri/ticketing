@@ -6,9 +6,9 @@ import { Toast } from "@/Helpers/Toast";
 import { useForm } from "@inertiajs/react";
 import { useEffect } from "react";
 
-const EditModal = ({ isOpen, close, ticket, comment }) => {
+const EditModal = ({ isOpen, close, task, comment }) => {
     const form = useForm({
-        ticket_id: ticket?.id,
+        task_id: task?.id,
         body: "",
     });
 
@@ -26,7 +26,7 @@ const EditModal = ({ isOpen, close, ticket, comment }) => {
     const submitHandler = (e) => {
         e.preventDefault();
 
-        form.put(route("comment.update", comment.id), {
+        form.put(route("task_comment.update", comment.id), {
             preserveScroll: true,
             onSuccess: () => {
                 close();

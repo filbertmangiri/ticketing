@@ -1,62 +1,70 @@
 import Editor from "@/Components/Form/Editor";
 import Input from "@/Components/Form/Input";
-import TextArea from "@/Components/Form/TextArea";
 import Modal from "@/Components/Modal";
 import { Toast } from "@/Helpers/Toast";
 import { useForm } from "@inertiajs/react";
 import { useEffect } from "react";
 
-const EditModal = ({ isOpen, close, ticket, comment }) => {
+const EditModal = ({ isOpen, close, task }) => {
     const form = useForm({
-        ticket_id: ticket?.id,
+        title: "",
         body: "",
     });
 
     useEffect(() => {
         form.setData({
             ...form.data,
-            body: comment?.body || "",
+            title: task.title || "",
+            body: task.body || "",
         });
 
         form.setDefaults({
-            body: comment?.body || "",
+            title: task.title || "",
+            body: task.body || "",
         });
-    }, [comment]);
+    }, []);
 
     const submitHandler = (e) => {
         e.preventDefault();
 
-        form.put(route("comment.update", comment.id), {
+        form.put(route("task.update", task.number), {
             preserveScroll: true,
             onSuccess: () => {
                 close();
                 form.reset();
-                Toast("success", "Comment successfully updated");
+                Toast("success", "Task successfully updated");
             },
         });
     };
 
+    const inputHandler = (e) => {
+        form.setData(e.target.name, e.target.value);
+    };
+
     return (
-        <Modal title="Edit a comment" isOpen={isOpen} close={close}>
+        <Modal
+            title={`Edit a task - <b>${task.number}</b>`}
+            isOpen={isOpen}
+            close={close}
+        >
             <Modal.Body className="flex flex-col gap-y-3">
-                <TextArea>
-                    {/* <TextArea.Field
-                        className="bg-gray-100 dark:bg-gray-800"
-                        placeholder="Add your comment . . ."
-                        value={form.data.body}
-                        onChange={(e) => form.setData("body", e.target.value)}
-                    /> */}
+                <div className="flex flex-col gap-y-6">
+                    <Input className="w-full">
+                        <Input.Label>Subject</Input.Label>
+                        <Input.Field
+                            name="title"
+                            value={form.data.title}
+                            onChange={inputHandler}
+                        />
+                        <Input.Errors errors={form.errors.title} />
+                    </Input>
 
-                    <Editor
-                        data={form.data.body}
-                        setData={form.setData}
-                        config={{
-                            placeholder: "Add your comment . . .",
-                        }}
-                    />
-
-                    <Input.Errors errors={form.errors.body} />
-                </TextArea>
+                    <div>
+                        <Input.Label>Description</Input.Label>
+                        <Editor data={form.data.body} setData={form.setData} />
+                        <Input.Errors errors={form.errors.body} />
+                    </div>
+                </div>
             </Modal.Body>
 
             <Modal.Footer className="flex gap-x-2">

@@ -269,18 +269,6 @@ const Index = ({ categories, ...props }) => {
                                                         <Menu.Items className="absolute right-0 z-10 w-fit divide-y divide-gray-400 rounded-lg border border-gray-300 bg-gray-100 shadow dark:divide-gray-600 dark:border-gray-700 dark:bg-gray-900">
                                                             <div>
                                                                 {can(
-                                                                    "view product"
-                                                                ) && (
-                                                                    <Menu.Item
-                                                                        as="a"
-                                                                        href="#"
-                                                                        className="flex w-full items-center rounded-t-lg px-4 py-2 text-left hover:bg-gray-400 dark:hover:bg-gray-600"
-                                                                    >
-                                                                        <ArrowTopRightOnSquareIcon className="mr-3 h-4 w-4" />
-                                                                        View
-                                                                    </Menu.Item>
-                                                                )}
-                                                                {can(
                                                                     "update product"
                                                                 ) && (
                                                                     <Menu.Item

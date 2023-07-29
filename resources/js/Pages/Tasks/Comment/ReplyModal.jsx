@@ -7,9 +7,9 @@ import { useForm } from "@inertiajs/react";
 import { useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 
-const ReplyModal = ({ isOpen, close, ticket, comment }) => {
+const ReplyModal = ({ isOpen, close, task, comment }) => {
     const form = useForm({
-        ticket_id: ticket?.id,
+        task_id: task?.id,
         parent_id: comment?.id,
         body: "",
         attachments: [],
@@ -36,7 +36,7 @@ const ReplyModal = ({ isOpen, close, ticket, comment }) => {
     const submitHandler = (e) => {
         e.preventDefault();
 
-        form.post(route("comment.store"), {
+        form.post(route("task_comment.store"), {
             preserveScroll: true,
             onSuccess: () => {
                 close();

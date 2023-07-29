@@ -5,7 +5,6 @@ import {
     PhotoIcon,
     TrashIcon,
 } from "@heroicons/react/24/outline";
-import { useEffect } from "react";
 import Input from "./Form/Input";
 
 const AttachmentItem = ({
@@ -16,10 +15,6 @@ const AttachmentItem = ({
     error,
 }) => {
     const isImage = attachment.mime_type.split("/")[0] === "image";
-
-    useEffect(() => {
-        console.log(error);
-    }, [error]);
 
     return (
         <li className="flex h-fit w-40 flex-col gap-y-1">
