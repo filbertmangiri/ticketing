@@ -137,6 +137,18 @@ const Index = ({ technicians, ...props }) => {
                             params={params}
                             setParams={setParams}
                         />
+
+                        <div>
+                            {can("create task") && (
+                                <Link
+                                    type="button"
+                                    href={route("task.create")}
+                                    className="rounded-md bg-green-700 px-3.5 py-1.5 text-sm font-medium text-white transition hover:bg-opacity-75 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+                                >
+                                    Create
+                                </Link>
+                            )}
+                        </div>
                     </div>
                     <div className="flex gap-y-2 gap-x-5 max-md:flex-col">
                         <div className="flex items-center">

@@ -74,6 +74,21 @@ const DashboardLayout = ({ title, children }) => {
                                     ? "Assigned Tickets"
                                     : "My Tickets"}
                             </Sidebar.Item>
+                            {(can("create task") ||
+                                can("view assigned task")) && (
+                                <Sidebar.Item
+                                    routeName="task.index"
+                                    routeCheck={["task.index", "task.show"]}
+                                    icon={
+                                        <RectangleStackIcon className="h-6 w-6" />
+                                    }
+                                    setShowSidebar={setShowSidebar}
+                                >
+                                    {can("view any task")
+                                        ? "Tasks"
+                                        : "Assigned Tasks"}
+                                </Sidebar.Item>
+                            )}
                             {can("view any user") && (
                                 <Sidebar.Item
                                     routeName="user.index"
@@ -148,33 +163,6 @@ const DashboardLayout = ({ title, children }) => {
                                     setShowSidebar={setShowSidebar}
                                 >
                                     Locations
-                                </Sidebar.Item>
-                            )}
-                            {can("create task") && (
-                                <Sidebar.Item
-                                    routeName="task.create"
-                                    routeCheck="task.create"
-                                    icon={
-                                        <RectangleStackIcon className="h-6 w-6" />
-                                    }
-                                    setShowSidebar={setShowSidebar}
-                                >
-                                    Create a New Task
-                                </Sidebar.Item>
-                            )}
-                            {(can("create task") ||
-                                can("view assigned task")) && (
-                                <Sidebar.Item
-                                    routeName="task.index"
-                                    routeCheck={["task.index", "task.show"]}
-                                    icon={
-                                        <RectangleStackIcon className="h-6 w-6" />
-                                    }
-                                    setShowSidebar={setShowSidebar}
-                                >
-                                    {can("view any task")
-                                        ? "Tasks"
-                                        : "Assigned Tasks"}
                                 </Sidebar.Item>
                             )}
                             {can("view any announcement") && (
