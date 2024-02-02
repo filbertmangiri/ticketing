@@ -36,11 +36,11 @@ class DatabaseSeeder extends Seeder
 			]);
 		} else {
 			User::create([
-				'name' => 'Filbert Mangiri',
-				'email' => 'filbert.mangiri@student.umn.ac.id',
-				'username' => 'filbertmangiri',
+				'name' => 'Administrator',
+				'email' => 'admin@intecsdigital.net',
+				'username' => 'admin',
 				'gender' => Gender::Male->value,
-				'password' => bcrypt('password'),
+				'password' => bcrypt('admin'),
 			])->assignRole('admin');
 		}
 	}
