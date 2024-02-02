@@ -14,7 +14,7 @@ class DownloadController extends Controller
 			'filename' => ['nullable', 'string', 'max:255'],
 		]);
 
-		if ($request->path && Storage::disk('public')->exists($request->path)) {
+		if ($request->path && Storage::disk()->exists($request->path)) {
 			return Storage::download($request->path, $request->filename);
 		} else {
 			abort(404, 'File not found');
