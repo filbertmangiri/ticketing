@@ -31,6 +31,14 @@ class PermissionSeeder extends Seeder
 		Permission::create(['name' => 'view assigned task']);
 		Permission::create(['name' => 'support assigned task']);
 
+		Permission::createResource('calibration');
+		Permission::createResource('calibration comment');
+		Permission::create(['name' => 'close calibration']);
+		Permission::create(['name' => 'action closed calibration']);
+		Permission::create(['name' => 'get calibration']);
+		Permission::create(['name' => 'view assigned calibration']);
+		Permission::create(['name' => 'support assigned calibration']);
+
 		Permission::create(['name' => 'reset default password user']);
 
 		/* Roles */
@@ -57,6 +65,15 @@ class PermissionSeeder extends Seeder
 			'view task',
 			'view assigned task',
 			'support assigned task',
+		]);
+
+		$calibrationSupport = Role::firstOrCreate(['name' => 'calibration support']);
+		$calibrationSupport->givePermissionTo([
+			...Permission::getResourceNames('calibration'),
+			...Permission::getResourceNames('calibration comment'),
+			'close calibration',
+			'action closed calibration',
+			'get calibration',
 		]);
 
 		$user = Role::firstOrCreate(['name' => 'user']);

@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
 			'username' => 'filbertmangiri',
 			'gender' => Gender::Male->value,
 			'password' => bcrypt('password'),
-		])->assignRole('admin');
+		])->assignRole(['admin', 'calibration support']);
 
 		User::create([
 			'name' => 'User Mangiri',
@@ -25,6 +25,7 @@ class UserSeeder extends Seeder
 			'username' => 'user',
 			'gender' => Gender::Male->value,
 			'password' => bcrypt('password'),
+			'sub_department_id' => 1,
 		])->assignRole('user');
 
 		User::create([

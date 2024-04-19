@@ -18,6 +18,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { useRef, useState } from "react";
 import AppLayout from "./App";
+import { auth } from "@/Helpers/Auth";
 
 const DashboardLayout = ({ title, children }) => {
     const [showSidebar, setShowSidebar] = useState(
@@ -87,6 +88,19 @@ const DashboardLayout = ({ title, children }) => {
                                     {can("view any task")
                                         ? "Tasks"
                                         : "Assigned Tasks"}
+                                </Sidebar.Item>
+                            )}
+                            {(can("view any calibration") ||
+                                auth().user.sub_department_id) && (
+                                <Sidebar.Item
+                                    routeName="calibration.index"
+                                    routeCheck="calibration.*"
+                                    icon={<UsersIcon className="h-6 w-6" />}
+                                    setShowSidebar={setShowSidebar}
+                                >
+                                    {can("view any calibration")
+                                        ? "Calibrations"
+                                        : "Assigned Calibrations"}
                                 </Sidebar.Item>
                             )}
                             {can("view any user") && (
