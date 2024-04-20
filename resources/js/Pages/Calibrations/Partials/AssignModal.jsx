@@ -1,5 +1,6 @@
 import Input from "@/Components/Form/Input";
 import Select from "@/Components/Form/Select";
+import TextArea from "@/Components/Form/TextArea";
 import Modal from "@/Components/Modal";
 import { Toast } from "@/Helpers/Toast";
 import { useForm } from "@inertiajs/react";
@@ -7,6 +8,7 @@ import { useForm } from "@inertiajs/react";
 const AssignModal = ({ isOpen, close, calibration, departments }) => {
     const form = useForm({
         department: null,
+        description: "",
     });
 
     const submitHandler = (e) => {
@@ -42,6 +44,19 @@ const AssignModal = ({ isOpen, close, calibration, departments }) => {
                     isSearchable={true}
                 />
                 <Input.Errors errors={form.errors.department_id} />
+
+                <TextArea>
+                    <TextArea.Field
+                        className="bg-gray-100 dark:bg-gray-800"
+                        placeholder="Add a progress description . . ."
+                        name="description"
+                        value={form.data.description}
+                        onChange={(e) => {
+                            form.setData("description", e.target.value);
+                        }}
+                    />
+                    <Input.Errors errors={form.errors.description} />
+                </TextArea>
             </Modal.Body>
 
             <Modal.Footer className="flex gap-x-2">

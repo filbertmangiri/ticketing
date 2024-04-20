@@ -94,6 +94,15 @@ class CalibrationController extends Controller
 
         $validated['status'] = Status::Assigned;
 
+        $calibration->progresses()->create([
+            'issuer_id' => $request->user()->id,
+            'issuer_name' => $request->user()->name,
+            'department_name' => $request->user()?->subDepartment?->department?->name,
+            'description' => $validated['description'],
+        ]);
+
+        unset($validated['description']);
+
         $calibration->update($validated);
 
         return redirect()->route('calibration.index');

@@ -23,6 +23,7 @@ class AssignCalibrationRequest extends FormRequest
 	{
 		return [
 			'department_id' => ['required', Rule::exists('departments', 'id')],
+			'description' => ['required', 'string', 'min:5', 'max:1000'],
 		];
 	}
 

@@ -61,6 +61,17 @@ function Progresses({ items }) {
                                     </div>
                                     <div className="flex w-full flex-col">
                                         <div className="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
+                                            <div>
+                                                <p className="text-sm text-gray-600 dark:text-gray-400">
+                                                    {item.issuer?.name ||
+                                                        item.issuer ||
+                                                        "-"}{" "}
+                                                    -{" "}
+                                                    {item.department?.name ||
+                                                        item.department ||
+                                                        "-"}
+                                                </p>
+                                            </div>
                                             <div className="whitespace-nowrap text-right text-sm text-gray-600 dark:text-gray-400">
                                                 {item.created_at}
                                             </div>

@@ -11,6 +11,9 @@ class CalibrationProgress extends Model
 
     protected $fillable = [
         'calibration_id',
+        'issuer_id',
+        'issuer_name',
+        'department_name',
         'description',
         'created_at',
     ];
@@ -18,5 +21,10 @@ class CalibrationProgress extends Model
     public function calibration()
     {
         return $this->belongsTo(Calibration::class);
+    }
+
+    public function issuer()
+    {
+        return $this->belongsTo(User::class, 'issuer_id');
     }
 }
