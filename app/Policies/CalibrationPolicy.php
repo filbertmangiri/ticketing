@@ -31,6 +31,10 @@ class CalibrationPolicy
             return true;
         }
 
+        if ($user->can('view calibration')) {
+            return true;
+        }
+
         return false;
     }
 
