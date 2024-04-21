@@ -145,10 +145,6 @@ class CalibrationController extends Controller
             'description' => ['required', 'string', 'min:5', 'max:1000'],
         ]);
 
-        $progress = $calibration->progresses()->create($validated);
-
-        $calibration->update([
-            'assigned_at' => $progress->created_at,
-        ]);
+        $calibration->progresses()->create($validated);
     }
 }

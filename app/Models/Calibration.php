@@ -156,7 +156,7 @@ class Calibration extends Model
 
     public static function generateNumber()
     {
-        $number = 'T' . '-' . date('Ymd') . '-';
+        $number = 'C' . '-' . date('Ymd') . '-';
 
         $last = self::where('number', 'like', $number . '%')
             ->orderBy('number', 'desc')
