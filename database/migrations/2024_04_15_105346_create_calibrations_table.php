@@ -35,6 +35,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class, 'issuer_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('issuer_name');
 
+            $table->timestamp('assigned_at');
             $table->timestamp('closed_at')->nullable();
 
             $table->timestamps();

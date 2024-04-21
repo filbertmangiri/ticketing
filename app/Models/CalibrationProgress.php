@@ -27,4 +27,15 @@ class CalibrationProgress extends Model
     {
         return $this->belongsTo(User::class, 'issuer_id');
     }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function (CalibrationProgress $calibrationProgress) {
+            $calibrationProgress->issuer_id = auth()->user()->id;
+            $calibrationProgress->issuer_name = auth()->user()->name;
+            $calibrationProgress->department_name = auth()->user()->subDepartment?->department?->name;
+        });
+    }
 }

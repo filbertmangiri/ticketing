@@ -6,34 +6,40 @@ import {
 } from "@heroicons/react/20/solid";
 import { twMerge } from "tailwind-merge";
 
-const getProgressIcon = (progress) => {
-    switch (progress.value) {
-        case "created":
-            return {
-                icon: PencilSquareIcon,
-                background: "bg-blue-500",
-            };
-
-        case "closed":
-            return {
-                icon: LockClosedIcon,
-                background: "bg-red-500",
-            };
-
-        default:
-            return {
-                icon: ClockIcon,
-                background: "bg-yellow-500",
-            };
+const getProgressIcon = (progress, calibration) => {
+    /* if (progress.created_at == calibration.created_at) {
+        return {
+            icon: PencilSquareIcon,
+            background: "bg-blue-500",
+        };
     }
+
+    if (progress.created_at == calibration.closed_at) {
+        return {
+            icon: LockClosedIcon,
+            background: "bg-red-500",
+        };
+    } */
+
+    if (progress.is_going) {
+        return {
+            icon: ClockIcon,
+            background: "bg-yellow-500",
+        };
+    }
+
+    return {
+        icon: ClockIcon,
+        background: "bg-red-500",
+    };
 };
 
-function Progresses({ items }) {
+function Progresses({ items, calibration }) {
     return items?.length > 0 ? (
         <div className="flow-root">
             <ul role="list" className="-mb-8">
                 {items.map((item, index) => {
-                    const Icon = getProgressIcon(item).icon;
+                    const Icon = getProgressIcon(item, calibration).icon;
 
                     return (
                         <li key={index}>

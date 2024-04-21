@@ -5,6 +5,7 @@ import {
     BookOpenIcon,
     BuildingOffice2Icon,
     BuildingOfficeIcon,
+    ClipboardDocumentListIcon,
     DevicePhoneMobileIcon,
     FlagIcon,
     MapPinIcon,
@@ -95,7 +96,9 @@ const DashboardLayout = ({ title, children }) => {
                                 <Sidebar.Item
                                     routeName="calibration.index"
                                     routeCheck="calibration.*"
-                                    icon={<UsersIcon className="h-6 w-6" />}
+                                    icon={
+                                        <ClipboardDocumentListIcon className="h-6 w-6" />
+                                    }
                                     setShowSidebar={setShowSidebar}
                                 >
                                     {can("view any calibration")
