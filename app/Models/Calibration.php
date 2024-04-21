@@ -30,7 +30,6 @@ class Calibration extends Model
         'product_name',
         'issuer_name',
 
-        'assigned_at',
         'closed_at',
     ];
 
@@ -89,7 +88,6 @@ class Calibration extends Model
 
     protected $casts = [
         'status' => Status::class,
-        'assigned_at' => 'datetime',
         'closed_at' => 'datetime',
     ];
 
@@ -141,8 +139,6 @@ class Calibration extends Model
             $calibration->department_name = $calibration->department?->name;
             $calibration->category_name = $calibration->product?->category?->name;
             $calibration->product_name = $calibration->product?->name;
-
-            $calibration->assigned_at = now();
         });
 
         static::updating(function ($calibration) {

@@ -94,13 +94,12 @@ class CalibrationController extends Controller
 
         $validated['status'] = Status::Assigned;
 
-        $progress = $calibration->progresses()->create([
+        $calibration->progresses()->create([
             'description' => $validated['description'],
+            'is_assign' => true,
         ]);
 
         unset($validated['description']);
-
-        $validated['assigned_at'] = $progress->created_at;
 
         $calibration->update($validated);
 

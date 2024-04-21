@@ -15,6 +15,7 @@ class CalibrationProgress extends Model
         'issuer_name',
         'department_name',
         'description',
+        'is_assign',
         'created_at',
     ];
 

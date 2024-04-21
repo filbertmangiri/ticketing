@@ -23,6 +23,8 @@ return new class extends Migration
 
             $table->string('department_name');
 
+            $table->boolean('is_assign')->default(false);
+
             $table->text('description');
 
             $table->timestamps();

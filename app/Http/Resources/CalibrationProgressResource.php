@@ -14,7 +14,7 @@ class CalibrationProgressResource extends JsonResource
             'issuer' => $this->issuer?->only('id', 'username', 'name') ?? $this->issuer_name,
             'department' => $this->department?->only('id', 'name', 'slug') ?? $this->department_name,
             'description' => $this->description ?? null,
-            'is_going' => $this->created_at >= $this->calibration?->assigned_at,
+            'is_assign' => $this->is_assign ?? false,
             'created_at' => $this->created_at?->format('l, d F Y - H:i:s'),
         ];
     }

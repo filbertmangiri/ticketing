@@ -657,10 +657,7 @@ const Show = ({ comments, departments, ...props }) => {
                     as="ul"
                     className="flex h-fit min-h-full flex-col gap-y-3 rounded-lg bg-gray-200 p-5 dark:bg-gray-800"
                 >
-                    <Progresses
-                        items={calibration.progresses}
-                        calibration={calibration}
-                    />
+                    <Progresses items={calibration.progresses} />
                 </Tab.Panel>
             </Tab.Panels>
         </Tab.Group>
