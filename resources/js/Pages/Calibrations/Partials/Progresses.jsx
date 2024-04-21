@@ -49,7 +49,12 @@ function Progresses({ items }) {
                                     <div className="flex w-full flex-col">
                                         <div className="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                                             <div>
-                                                <p className="text-sm text-gray-600 dark:text-gray-400">
+                                                <p
+                                                    className={`text-sm text-gray-600 dark:text-gray-400 ${
+                                                        item.is_assign &&
+                                                        "font-extrabold"
+                                                    }`}
+                                                >
                                                     {item.issuer?.name ||
                                                         item.issuer ||
                                                         "-"}{" "}
@@ -64,7 +69,14 @@ function Progresses({ items }) {
                                             </div>
                                         </div>
 
-                                        <p>{item.description}</p>
+                                        <p
+                                            className={
+                                                item.is_assign &&
+                                                "font-extrabold"
+                                            }
+                                        >
+                                            {item.description}
+                                        </p>
                                     </div>
                                 </div>
                             </div>
